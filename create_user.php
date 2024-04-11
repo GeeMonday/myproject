@@ -30,17 +30,21 @@ if ($_POST && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_
     // execute() will check for possible SQL injection and remove if necessary
     if($statement->execute()){
         echo "User created successfully!";
+        
+        // Get the ID of the newly inserted user
+        $userId = $db->lastInsertId();
+        
+        // Update the role to 'admin' for the user with the provided ID
+        $roleUpdateQuery = "UPDATE users SET role = 'admin' WHERE id = :userId";
+        $roleUpdateStatement = $db->prepare($roleUpdateQuery);
+        $roleUpdateStatement->bindParam(':userId', $userId);
+        $roleUpdateStatement->execute();
     } else {
         echo "Failed to create user.";
     }
 }
-// Assuming $userId contains the ID of the newly created user
-// Update the role to 'admin' for the user with the provided ID
-$query = "UPDATE users SET role = 'admin' WHERE id = :id";
-$statement = $db->prepare($query);
-$statement->bindParam(':id', $id);
-$statement->execute();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +81,7 @@ $statement->execute();
 <body>
     <div class="container">
         <h2 class="text-center mb-4">Create User Profile</h2>
-        <form action="create_user.php" method="post" id="userForm">
+        <form action="index.php" method="post" id="userForm">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" class="form-control" id="username" name="username" required>
