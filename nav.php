@@ -1,6 +1,37 @@
 <?php
-// Check if the user is logged in and set $userLoggedIn accordingly
-$userLoggedIn = isset($_SESSION['id']);
+// Start session
+session_start();
+// Check if the user is logged in
+if (isset($_SESSION['id'])) {
+    try {
+        // Prepare and execute a query to retrieve the username
+        $query = "SELECT username FROM users WHERE id = :id";
+        $statement = $db->prepare($query);
+        $statement->bindParam(':id', $_SESSION['id']);
+        $statement->execute();
+
+        // Fetch the username from the result
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            $usernameFromDatabase = $result['username'];
+            $userLoggedIn = true;
+        } else {
+            // User not found in database
+            $userLoggedIn = false;
+            $usernameFromDatabase = '';
+        }
+    } catch (PDOException $e) {
+        // Error occurred while fetching username
+        $userLoggedIn = false;
+        $usernameFromDatabase = '';
+        echo "Error: " . $e->getMessage();
+    }
+} else {
+    // User not logged in
+    $userLoggedIn = false;
+    $usernameFromDatabase = '';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -32,44 +63,40 @@ $userLoggedIn = isset($_SESSION['id']);
         <li class="nav-item">
             <a class="nav-link" href="players.php">Players</a>
         </li>
-        <?php
-        // Check if the user is logged in
-        if ($userLoggedIn) {
-            // If logged in, show username or "Log in" if username is not available
-            echo '<li class="nav-item dropdown">';
-            echo '<a class="nav-link dropdown-toggle" href="login.php" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-            echo ($usernameFromDatabase ? $usernameFromDatabase : 'Log in');
-            echo '</a>';
-            echo '<div class="dropdown-menu" aria-labelledby="userDropdown">';
-            if ($usernameFromDatabase) {
-                echo '<a class="dropdown-item" href="create_user.php">Profile</a>';
-                echo '<div class="dropdown-divider"></div>';
-                echo '<a class="dropdown-item" href="logout.php">Log out</a>';
-            } else {
-                echo '<a class="dropdown-item" href="login.php">Log in</a>';
-            }
-            echo '</div>';
-            echo '</li>';
-        } else {
-            // If not logged in, show "Log in"
-            echo '<li class="nav-item">';
-            echo '<a class="nav-link" href="login.php">Log in</a>';
-            echo '</li>';
-        }
-        ?>
+        <?php if ($userLoggedIn) { ?>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <?php echo ($usernameFromDatabase ? $usernameFromDatabase : 'User Profile'); ?>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="create_user.php">Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="logout.php">Log out</a>
+                </div>
+            </li>
+        <?php } else { ?>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Log in
+                </a>
+                <div class="dropdown-menu" aria-labelledby="loginDropdown">
+                    <a class="dropdown-item" href="login.php">Registered user</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="create_user.php">Create Profile</a>
+                </div>
+            </li>
+        <?php } ?>
         <li class="nav-item">
             <a class="nav-link" href="about_us.php">About us</a>
         </li>
-        <?php
-        // Show "Admins" link only if user is logged in
-        if ($userLoggedIn) {
-            echo '<li class="nav-item">';
-            echo '<a class="nav-link" href="admin.php">Admins</a>';
-            echo '</li>';
-        }
-        ?>
+        <?php if ($userLoggedIn) { ?>
+            <li class="nav-item">
+                <a class="nav-link" href="admin.php">Admins</a>
+            </li>
+        <?php } ?>
     </ul>
 </div>
+
 
 </nav>
 
@@ -88,6 +115,10 @@ $userLoggedIn = isset($_SESSION['id']);
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+<script>
+    $(document).ready(function() {
+        $('.dropdown-toggle').dropdown();
+    });
+</script>
 </body>
 </html>
