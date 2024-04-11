@@ -1,35 +1,46 @@
 <?php
 // Start session
 session_start();
+
+// Include database connection
+require('connect.php');
+
 // Check if the user is logged in
 if (isset($_SESSION['id'])) {
     try {
-        // Prepare and execute a query to retrieve the username
-        $query = "SELECT username FROM users WHERE id = :id";
+        // Retrieve user information from the database
+        $query = "SELECT username, role FROM users WHERE id = :id";
         $statement = $db->prepare($query);
         $statement->bindParam(':id', $_SESSION['id']);
         $statement->execute();
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-        // Fetch the username from the result
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-        if ($result) {
-            $usernameFromDatabase = $result['username'];
+        if ($user) {
+            // User is authenticated
             $userLoggedIn = true;
+            $usernameFromDatabase = $user['username'];
+            $userRole = $user['role'];
+
+            // Check if user is admin
+            $isAdmin = ($userRole === 'admin');
         } else {
             // User not found in database
             $userLoggedIn = false;
             $usernameFromDatabase = '';
+            $isAdmin = false;
         }
     } catch (PDOException $e) {
-        // Error occurred while fetching username
+        // Error occurred while fetching user information
         $userLoggedIn = false;
         $usernameFromDatabase = '';
+        $isAdmin = false;
         echo "Error: " . $e->getMessage();
     }
 } else {
     // User not logged in
     $userLoggedIn = false;
     $usernameFromDatabase = '';
+    $isAdmin = false;
 }
 
 ?>
