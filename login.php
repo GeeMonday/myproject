@@ -21,6 +21,7 @@ if ($_POST && !empty($_POST['email']) && !empty($_POST['password'])) {
         if (password_verify($saltedPassword, $user['password'])) {
             echo "Login successful!";
             // Redirect to dashboard or another page
+            header("location: http://localhost/wd2/older%20files/ProjectOne/index.php");
         } else {
             echo "Incorrect password.";
         }

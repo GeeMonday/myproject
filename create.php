@@ -7,32 +7,40 @@
     Descripion:
 
 ****************/
-
 require('connect.php');
 require('authenticate.php');
-if ($_POST && !empty($_POST['player_id']) && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty($_POST['position']) && !empty($_POST['skill_rating'])) {
-    // Sanitize user input to escape HTML entities and filter out dangerous characters.
-    $player_id = filter_input(INPUT_POST, 'player_id', FILTER_SANITIZE_FULL_NUMBER_INT);
+
+if ($_POST && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty($_POST['position']) && !empty($_POST['skill_rating'])) {
+    // Sanitize user input
     $player_name = filter_input(INPUT_POST, 'player_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $team = filter_input(INPUT_POST, 'team', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $skill_rating = filter_input(INPUT_POST, 'skill_rating', FILTER_SANITIZE_NUMBER_INT);
+    $player_description = filter_input(INPUT_POST, 'player_description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     
-    // Build the parameterized SQL query and bind to the above sanitized values.
-    $query = "INSERT INTO nbaeliteroster ( player_id, player_name, team, position, skill_rating) VALUES (:player_id, :player_name, :team, :position, :skill_rating)";
+    // Build the parameterized SQL query and bind values
+    $query = "INSERT INTO nbaeliteroster (player_name, team, position, skill_rating) VALUES (:player_name, :team, :position, :skill_rating)";
     $statement = $db->prepare($query);
-    
-    // Bind values to the parameters
-    $statement->bindValue(':player_id', $player_id);
     $statement->bindValue(':player_name', $player_name);
     $statement->bindValue(':team', $team);
     $statement->bindValue(':position', $position);
     $statement->bindValue(':skill_rating', $skill_rating);
     
-    // Execute the INSERT.
-    // execute() will check for possible SQL injection and remove if necessary
+    // Execute the INSERT query
     if($statement->execute()){
-        echo "success!";
+        echo "Player created successfully!";
+        
+        // Get the ID of the newly inserted player
+        $player_id = $db->lastInsertId();
+        
+        // Save the comment in the comments table
+        $query = "INSERT INTO comments (player_id, comment) VALUES (:player_id, :comment)";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':player_id', $player_id);
+        $statement->bindValue(':comment', $player_description);
+        $statement->execute();
+    } else {
+        echo "Failed to create player.";
     }
 }
 ?>
@@ -46,8 +54,8 @@ if ($_POST && !empty($_POST['player_id']) && !empty($_POST['player_name']) && !e
     <title>Create New Player</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Custom CSS -->
-        <link rel="stylesheet" type="text/css" href="main.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="main.css">
     <!-- Include TinyMCE script -->
     <script src="https://cdn.tiny.cloud/1/91x1238q9wh2ldf8mgvhy4pnp6xabrihkrrjse0ij3k3whxu/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
@@ -78,10 +86,6 @@ if ($_POST && !empty($_POST['player_id']) && !empty($_POST['player_name']) && !e
                 <!-- HTML form for creating a new table to the Elite Rosters database -->
                 <form action="players.php" method="post">
                     <div class="form-group">
-                        <label for="player_id">Player ID:</label>
-                        <input type="text" class="form-control" id="player_id" name="player_id" required>
-                    </div>
-                    <div class="form-group">
                         <label for="player_name">Player Name:</label>
                         <input type="text" class="form-control" id="player_name" name="player_name" required>
                     </div>
@@ -89,18 +93,25 @@ if ($_POST && !empty($_POST['player_id']) && !empty($_POST['player_name']) && !e
                         <label for="team">Team:</label>
                         <input type="text" class="form-control" id="team" name="team" required>
                     </div>
-                    <div class="form-group">
-                        <label for="position">Position:</label>
-                        <input type="text" class="form-control" id="position" name="position" required>
-                    </div>
+                <div class="form-group">
+                    <label for="position">Position:</label>
+                 <select class="form-control" id="position" name="position" required>
+                 <option value="">Select Position</option>
+                <option value="Point Guard">Point Guard</option>
+                <option value="Shooting Guard">Shooting Guard</option>
+                <option value="Small Forward">Small Forward</option>
+                <option value="Power Forward">Power Forward</option>
+                <option value="Center">Center</option>
+                   </select>
+                 </div>
                     <div class="form-group">
                         <label for="skill_rating">Skill Rating:</label>
                         <input type="text" class="form-control" id="skill_rating" name="skill_rating" required>
-                    </div>
-                    <h3> Comments </h3>  
-                    <!-- Use a div element instead of a textarea -->
+                    </div> 
                     <div class="form-group">
-                        <div id="player_description" style="height: 200px;"></div>
+                 <label for="player_description"><h4>Interesting Facts</h4></label>
+                <!-- Use a textarea for interesting facts -->
+                <textarea class="form-control" id="player_description" name="player_description" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

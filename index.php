@@ -7,13 +7,12 @@
     <title>NBA Elite Roster</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="main.css">
+    
 </head>
 <body>
 <?php include('nav.php'); ?>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
-    <div id='main-content' class="container">
+    <div class="container">
         <div id='header' class="jumbotron">
             <h2><a href='index.php'>NBA Elite Roster</a></h2>
             <p>

@@ -25,8 +25,6 @@ $players = $statement->fetchAll(PDO::FETCH_ASSOC);
     <title>NBA Elite Roster - Admin</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-            <!-- Custom CSS -->
-            <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
     <?php include('nav.php'); ?>
@@ -57,6 +55,7 @@ $players = $statement->fetchAll(PDO::FETCH_ASSOC);
                                 <a href="delete.php?player_id=<?= $player['player_id'] ?>" class="btn btn-danger">Delete</a>
                             </div>
                         </li>
+                        <p></p>
                     <?php endforeach; ?>
                 </ul>
             <?php else : ?> 

@@ -5,6 +5,7 @@ require('connect.php'); // Include the file to establish the database connection
 $categoriesQuery = $db->query("SELECT * FROM positions");
 $categories = $categoriesQuery->fetchAll(PDO::FETCH_ASSOC);
 ?>
+<?php include('nav.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +35,7 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_ASSOC);
         }
         .button-container {
     position: absolute;
-    top: 10px; 
+    top: 70px; 
     right: 10px;
 }      
     </style>

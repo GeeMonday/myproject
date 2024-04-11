@@ -71,7 +71,7 @@ if ($_POST && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_
 <body>
     <div class="container">
         <h2 class="text-center mb-4">Create User Profile</h2>
-        <form action="create_user.php" method="post">
+        <form action="create_user.php" method="post" id="userForm">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" class="form-control" id="username" name="username" required>
@@ -84,6 +84,10 @@ if ($_POST && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+            </div>
             <button type="submit" class="btn btn-create">Create User</button>
         </form>
     </div>
@@ -92,5 +96,26 @@ if ($_POST && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        // Function to check if passwords match
+        function validatePassword() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            if (password != confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+            return true;
+        }
+
+        // Add event listener to form submission
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            if (!validatePassword()) {
+                event.preventDefault(); // Prevent form submission if passwords don't match
+            }
+        });
+    </script>
 </body>
 </html>
+

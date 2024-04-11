@@ -1,5 +1,6 @@
 <?php
 require('connect.php'); 
+require ('authenticate.php');
 if ($_POST && !empty($_POST['category_name'])) {
 // Sanitize user input
 $category_name = filter_input(INPUT_POST, 'category_name', FILTER_SANITIZE_STRING);
@@ -31,7 +32,7 @@ if($statement->execute()){
 <body>
     <div class="container">
         <h2>Create Category</h2>
-        <form action="category.php" method="post">
+        <form action="create_category.php" method="post">
             <div class="form-group">
                 <label for="category_name">Category Name:</label>
                 <input type="text" id="category_name" name="category_name" class="form-control" required>

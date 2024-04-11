@@ -1,3 +1,8 @@
+<?php
+// Check if the user is logged in and set $userLoggedIn accordingly
+$userLoggedIn = isset($_SESSION['id']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,31 +22,55 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="admin.php">Admins</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="category.php">Category</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="players.php">Players</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.php">Log in</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="create_user.php">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about_us.php">About us</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="category.php">Category</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="players.php">Players</a>
+        </li>
+        <?php
+        // Check if the user is logged in
+        if ($userLoggedIn) {
+            // If logged in, show username or "Log in" if username is not available
+            echo '<li class="nav-item dropdown">';
+            echo '<a class="nav-link dropdown-toggle" href="login.php" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+            echo ($usernameFromDatabase ? $usernameFromDatabase : 'Log in');
+            echo '</a>';
+            echo '<div class="dropdown-menu" aria-labelledby="userDropdown">';
+            if ($usernameFromDatabase) {
+                echo '<a class="dropdown-item" href="create_user.php">Profile</a>';
+                echo '<div class="dropdown-divider"></div>';
+                echo '<a class="dropdown-item" href="logout.php">Log out</a>';
+            } else {
+                echo '<a class="dropdown-item" href="login.php">Log in</a>';
+            }
+            echo '</div>';
+            echo '</li>';
+        } else {
+            // If not logged in, show "Log in"
+            echo '<li class="nav-item">';
+            echo '<a class="nav-link" href="login.php">Log in</a>';
+            echo '</li>';
+        }
+        ?>
+        <li class="nav-item">
+            <a class="nav-link" href="about_us.php">About us</a>
+        </li>
+        <?php
+        // Show "Admins" link only if user is logged in
+        if ($userLoggedIn) {
+            echo '<li class="nav-item">';
+            echo '<a class="nav-link" href="admin.php">Admins</a>';
+            echo '</li>';
+        }
+        ?>
+    </ul>
+</div>
+
 </nav>
 
 <div class="container">

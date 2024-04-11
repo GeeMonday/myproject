@@ -1,19 +1,18 @@
 <?php
 require('connect.php');
-if ($_POST && !empty($_POST['player_id']) && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty($_POST['position']) && !empty($_POST['skill_rating'])) {
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty($_POST['position']) && !empty($_POST['skill_rating'])) {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
-    $player_id = filter_input(INPUT_POST, 'player_id', FILTER_SANITIZE_NUMBER_INT);
     $player_name = filter_input(INPUT_POST, 'player_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $team = filter_input(INPUT_POST, 'team', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $skill_rating = filter_input(INPUT_POST, 'skill_rating', FILTER_SANITIZE_NUMBER_INT);
     
     // Build the parameterized SQL query and bind to the above sanitized values.
-    $query = "INSERT INTO nbaeliteroster (player_id, player_name, team, position, skill_rating) VALUES (:player_id, :player_name, :team, :position, :skill_rating)";
+    $query = "INSERT INTO nbaeliteroster (player_name, team, position, skill_rating) VALUES (:player_name, :team, :position, :skill_rating)";
     $statement = $db->prepare($query);
     
     // Bind values to the parameters
-    $statement->bindValue(':player_id', $player_id);
     $statement->bindValue(':player_name', $player_name);
     $statement->bindValue(':team', $team);
     $statement->bindValue(':position', $position);
@@ -21,12 +20,15 @@ if ($_POST && !empty($_POST['player_id']) && !empty($_POST['player_name']) && !e
     
     // Execute the INSERT.
     // execute() will check for possible SQL injection and remove if necessary
-    if($statement->execute()){
-        echo "success!";
+    if ($statement->execute()) {
+        echo "Player added successfully!";
+    } else {
+        echo "Error adding player!";
     }
 }
 ?>
-  <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -54,7 +56,6 @@ if ($_POST && !empty($_POST['player_id']) && !empty($_POST['player_name']) && !e
             <table class="nba-roster">
                 <thead>
                     <tr>
-                        <th>Player ID</th>
                         <th>Player Name</th>
                         <th>Team</th>
                         <th>Position</th>
@@ -64,10 +65,8 @@ if ($_POST && !empty($_POST['player_id']) && !empty($_POST['player_name']) && !e
                 <tbody>
                     <?php foreach ($players as $player) : ?>
                         <tr>
-                            <!-- Check if 'player_id' key exists -->
-                            <td><?= isset($player['player_id']) ? $player['player_id'] : 'N/A' ?></td>
-                            <!-- Check if 'player_name' key exists  and display player name with  link to post page -->
-                            <td>
+                           <!-- Check if 'player_name' key exists  and display player name with  link to post page -->
+                           <td>
                           <?php if(isset($player['player_id'])): ?>
                         <h2><a href="post.php?player_id=<?= $player['player_id'] ?>"><?php echo $player['player_name']; ?></a></h2>
                         <?php endif; ?>
@@ -78,7 +77,6 @@ if ($_POST && !empty($_POST['player_id']) && !empty($_POST['player_name']) && !e
                             <td><?= isset($player['position']) ? $player['position'] : 'N/A' ?></td>
                             <!-- Check if 'skill_rating' key exists -->
                             <td><?= isset($player['skill_rating']) ? $player['skill_rating'] : 'N/A' ?></td>
-                            <!-- Add edit and delete buttons -->
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

@@ -57,7 +57,7 @@ if (isset($_GET['player_id'])) {
             $statement->bindValue(':player_id', $player_id);
 
             if ($statement->execute()) {
-                header('Location: index.php');
+                header('Location: admin.php');
                 exit;
             } else {
                 echo "Error: Unable to delete the player record.";
@@ -81,7 +81,7 @@ if (isset($_GET['player_id'])) {
             <h2><a href='players.php'> Delete player</a></h2>
         </div>
 
-        <form action="edit.php?player_id=<?php echo $player_id ?>" method="post"> 
+        <form action="delete.php?player_id=<?php echo $player_id ?>" method="post"> 
             <label for="player_name">Player Name:</label>
             <input type="text" id="player_name" name="player_name" value="<?php echo isset($player['player_name']) ? $player['player_name'] : '' ?>" required>
             <br>

@@ -62,6 +62,33 @@ if (isset($_GET['player_id'])) {
     // Handle the case where the player ID is not provided in the URL
     echo "Player ID not specified.";
 }
+
+// Function to get comment by player ID
+function getCommentByPlayerId($db, $player_id) {
+    $query = "SELECT * FROM comments WHERE player_id = :player_id";
+    $statement = $db->prepare($query);
+    $statement->bindParam(':player_id', $player_id, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+// Update comment if form submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_comment'])) {
+    $player_id = $_POST['player_id'];
+    $updated_comment = filter_input(INPUT_POST, 'updated_comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    
+    // Update the comment in the database
+    $query = "UPDATE comments SET comment = :updated_comment WHERE player_id = :player_id";
+    $statement = $db->prepare($query);
+    $statement->bindParam(':player_id', $player_id);
+    $statement->bindParam(':updated_comment', $updated_comment);
+    
+    if ($statement->execute()) {
+        echo "<p>Comment updated successfully!</p>";
+    } else {
+        echo "<p>Failed to update comment.</p>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -104,9 +131,12 @@ if (isset($_GET['player_id'])) {
             <label for="skill_rating">Skill Rating:</label>
             <input type="text" id="skill_rating" name="skill_rating" value="<?php echo isset($player['skill_rating']) ? $player['skill_rating'] : '' ?>" required>
             <br>
-            <h3>Comments</h3>
-            <!-- Use a div element instead of a textarea -->
-            <div id="player_description" style="height: 200px;"></div>
+            <br>
+            <div class="form-group">
+                 <label for="player_description"><h4>Interesting Facts</h4></label>
+                <!-- Use a textarea for interesting facts -->
+                <textarea class="form-control" id="player_description" name="player_description" rows="4"></textarea>
+                    </div>
             <br>
             <input type="submit" name="update" value="Update">
         </form>

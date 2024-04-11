@@ -7,7 +7,6 @@
     Description:
 
 ****************/
-
 require('connect.php');
 
 // Function to get a player name by its ID
@@ -18,8 +17,9 @@ function getPlayerById($db, $player_id) {
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
 }
-?>
 
+?>
+<?php include('nav.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +36,7 @@ echo "<div id='main-content'>";
 
 // Header section
 echo "<div id='header'>";
-echo "<h2><a href='index.php'>NBA Player Info</a></h2>";
+echo "<h2><a href='players.php'>NBA Player Info</a></h2>";
 echo "</div>";
 
 // Check if the ID parameter is set in the URL
@@ -51,25 +51,41 @@ if (isset($_GET['player_id'])) {
     if ($selectedPlayer) {
         echo "<div class='nba-roster'>";
         // Check if image URLs are provided and not empty
-if (!empty($selectedPlayer['image_url'])) {
-    // Split the comma-separated string into an array of image URLs
-    $imageArray = explode(',', $selectedPlayer['image_url']);
+        if (!empty($selectedPlayer['image_url'])) {
+            // Split the comma-separated string into an array of image URLs
+            $imageArray = explode(',', $selectedPlayer['image_url']);
 
-    // Loop through each image filename
-    foreach ($imageArray as $image) {
-        // Replace backslashes with forward slashes in the image path
-        $image = str_replace('\\', '/', trim($image));
-        echo "<img class='player-image' src='{$image}' alt='{$selectedPlayer['player_name']}' />";
-    }
-} else {
-    // If no image URLs are provided, display a default image or message
-    echo "<p>No images available</p>";
-}
+            // Loop through each image filename
+            foreach ($imageArray as $image) {
+                // Replace backslashes with forward slashes in the image path
+                $image = str_replace('\\', '/', trim($image));
+                echo "<img class='player-image' src='{$image}' alt='{$selectedPlayer['player_name']}' />";
+            }
+        } else {
+            // If no image URLs are provided, display a default image or message
+            echo "<p>No images available</p>";
+        }
         echo "<h2>{$selectedPlayer['player_name']}</h2>";
         echo "<p><strong>Player ID:</strong> {$selectedPlayer['player_id']}</p>";
         echo "<p><strong>Team:</strong> {$selectedPlayer['team']}</p>";
         echo "<p><strong>Position:</strong> {$selectedPlayer['position']}</p>";
         echo "<p><strong>Skill Rating:</strong> {$selectedPlayer['skill_rating']}</p>"; 
+        
+        // Retrieve the player description from the comments table
+        $query = "SELECT comment FROM comments WHERE player_id = :player_id";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':player_id', $player_id);
+        $statement->execute();
+        $comment_result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        // Display the player description
+        if ($comment_result) {
+            echo "<h4>Interesting Facts</h4>";
+            echo "<p>{$comment_result['comment']}</p>";
+        } else {
+            echo "<p>No interesting facts available.</p>";
+        }
+
         echo "</div>";
     } else {
         // Display a message if no player is found
@@ -79,7 +95,6 @@ if (!empty($selectedPlayer['image_url'])) {
     // Display a message if no ID parameter is set
     echo "<p>No player ID specified</p>";
 }
-
 
 // Footer section
 echo "<footer id='footer'>";
