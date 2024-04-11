@@ -34,6 +34,12 @@ if ($_POST && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_
         echo "Failed to create user.";
     }
 }
+// Assuming $userId contains the ID of the newly created user
+// Update the role to 'admin' for the user with the provided ID
+$query = "UPDATE users SET role = 'admin' WHERE id = :id";
+$statement = $db->prepare($query);
+$statement->bindParam(':id', $id);
+$statement->execute();
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -73,38 +73,38 @@ if (isset($_SESSION['id'])) {
         </li>
         <li class="nav-item">
             <a class="nav-link" href="players.php">Players</a>
-        </li>
-        <?php if ($userLoggedIn) { ?>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <?php echo ($usernameFromDatabase ? $usernameFromDatabase : 'User Profile'); ?>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="create_user.php">Profile</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="logout.php">Log out</a>
-                </div>
             </li>
-        <?php } else { ?>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Log in
-                </a>
-                <div class="dropdown-menu" aria-labelledby="loginDropdown">
-                    <a class="dropdown-item" href="login.php">Registered user</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="create_user.php">Create Profile</a>
-                </div>
-            </li>
-        <?php } ?>
-        <li class="nav-item">
-            <a class="nav-link" href="about_us.php">About us</a>
-        </li>
-        <?php if ($userLoggedIn) { ?>
-            <li class="nav-item">
-                <a class="nav-link" href="admin.php">Admins</a>
-            </li>
-        <?php } ?>
+<?php if ($userLoggedIn) { ?>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <?php echo ($usernameFromDatabase ? $usernameFromDatabase : 'User Profile'); ?>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="profile.php">Profile</a> <!-- Assuming profile.php is the user profile page -->
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="logout.php">Log out</a>
+        </div>
+    </li>
+<?php } else { ?>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Log in
+        </a>
+        <div class="dropdown-menu" aria-labelledby="loginDropdown">
+            <a class="dropdown-item" href="login.php">Registered user</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="create_user.php">Create Profile</a>
+        </div>
+    </li>
+<?php } ?>
+<li class="nav-item">
+    <a class="nav-link" href="about_us.php">About us</a>
+</li>
+<?php if ($isAdmin) { ?> <!-- Check if user is admin -->
+    <li class="nav-item">
+        <a class="nav-link" href="admin.php">Admins</a>
+    </li>
+<?php } ?>
     </ul>
 </div>
 
