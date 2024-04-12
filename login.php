@@ -70,7 +70,7 @@ if ($_POST && !empty($_POST['email']) && !empty($_POST['password'])) {
     </style>
 </head>
 <body>
-<?php include ('nav_guest.php'); ?>
+<?php include ('nav.php'); ?>
     <div class="container">
         <h2 class="text-center mb-4">Login</h2>
         <form action="login.php" method="post">

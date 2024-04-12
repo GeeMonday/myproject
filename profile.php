@@ -54,7 +54,7 @@ if (!$user) {
         <h2>User Profile</h2>
         <p><strong>ID:</strong> <?php echo $user['id']; ?></p>
         <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
-        <p><strong>Name:</strong> <?php echo $user['name']; ?></p>
+        <p><strong>Name:</strong> <?php echo $user['username']; ?></p>
         <!-- Add more profile information here as needed -->
         <a href="logout.php" class="btn btn-primary">Logout</a>
     </div>

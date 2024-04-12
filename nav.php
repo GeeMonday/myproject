@@ -1,13 +1,11 @@
 <?php
-// Start session
-session_start();
-
+require('connect.php');
 
 // Check if the user is logged in
 if (isset($_SESSION['id'])) {
     try {
         // Retrieve user information from the database
-        $query = "SELECT username, role FROM users WHERE id = :id";
+        $query = "SELECT username role FROM users WHERE id = :id";
         $statement = $db->prepare($query);
         $statement->bindParam(':id', $_SESSION['id']);
         $statement->execute();
@@ -16,7 +14,7 @@ if (isset($_SESSION['id'])) {
         if ($user) {
             // User is authenticated
             $userLoggedIn = true;
-            $usernameFromDatabase = $user['username'];
+            $usernameFromDatabase = $user['name'];
             $userRole = $user['role'];
 
             // Check if user is admin
