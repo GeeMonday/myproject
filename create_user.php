@@ -119,8 +119,10 @@ if ($_POST && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_
 </head>
 <body>
     <div class="container">
-        <h2 class="text-center mb-4">Create User Profile</h2>
-        <form action="index.php" method="post" id="userForm">
+    <a href="index.php" class="text-decoration-none">
+    <h2 class="text-center mb-4">Create User Profile</h2>
+</a>
+        <form action="create_user.php" method="post" id="userForm">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" class="form-control" id="username" name="username" required>

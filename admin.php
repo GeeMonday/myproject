@@ -57,6 +57,9 @@ if (!$isAdmin) {
     exit; // Stop further execution of the script
 }
 
+// After the block where $isAdmin is assigned
+var_dump($userLoggedIn, $isAdmin); // Add this line for debugging
+
 // Retrieve all data from the database
 $query = "SELECT * FROM nbaeliteroster";
 $statement = $db->query($query);

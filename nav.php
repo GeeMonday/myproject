@@ -2,8 +2,6 @@
 // Start session
 session_start();
 
-// Include database connection
-require('connect.php');
 
 // Check if the user is logged in
 if (isset($_SESSION['id'])) {
@@ -102,9 +100,11 @@ if (isset($_SESSION['id'])) {
     <a class="nav-link" href="about_us.php">About us</a>
 </li>
 <!-- Add conditional display for the Admin link based on user role -->
+<?php if ($isAdmin) { ?>
     <li class="nav-item">
         <a class="nav-link" href="admin.php">Admin</a>
     </li>
+<?php } ?>
     </ul>
 </div>
 </nav>
