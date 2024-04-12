@@ -39,11 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
         // Handle invalid form data
         echo "Error: Please fill in all required fields.";
     }
-} else {
-    // Redirect if form is not submitted
-    header('Location: players.php');
-    exit;
-}
+} 
 ?>
 
 <!DOCTYPE html>

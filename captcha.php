@@ -14,7 +14,8 @@ $textColor = imagecolorallocate($image, 0, 0, 0);
 imagestring($image, 5, 5, 5, $captcha, $textColor);
 
 // Output image
-header('Content-type: image/png');
+ob_start();
 imagepng($image);
-imagedestroy($image);
+$image_data = ob_get_clean();
+imagedestroy($image);d
 ?>
