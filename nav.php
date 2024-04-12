@@ -23,6 +23,7 @@ if (isset($_SESSION['id'])) {
 
             // Check if user is admin
             $isAdmin = ($userRole === 'admin');
+            var_dump($isAdmin); 
         } else {
             // User not found in database
             $userLoggedIn = false;
@@ -100,27 +101,13 @@ if (isset($_SESSION['id'])) {
 <li class="nav-item">
     <a class="nav-link" href="about_us.php">About us</a>
 </li>
-<?php if ($isAdmin) { ?> <!-- Check if user is admin -->
+<!-- Add conditional display for the Admin link based on user role -->
     <li class="nav-item">
-        <a class="nav-link" href="admin.php">Admins</a>
+        <a class="nav-link" href="admin.php">Admin</a>
     </li>
-<?php } ?>
     </ul>
 </div>
-
-
 </nav>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <!-- Sidebar -->
-        </div>
-        <div class="col-md-9">
-            <!-- Main Content -->
-        </div>
-    </div>
-</div>
 
 <!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
