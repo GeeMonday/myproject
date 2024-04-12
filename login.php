@@ -1,5 +1,6 @@
 <?php
 require('connect.php');
+session_start(); // Start the session
 
 if ($_POST && !empty($_POST['email']) && !empty($_POST['password'])) {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
@@ -19,9 +20,13 @@ if ($_POST && !empty($_POST['email']) && !empty($_POST['password'])) {
         
         // Verify password against hashed password
         if (password_verify($saltedPassword, $user['password'])) {
-            echo "Login successful!";
+            // Set session variables
+            $_SESSION['id'] = $user['id'];
+            $_SESSION['email'] = $user['email'];
+            
             // Redirect to dashboard or another page
             header("location: http://localhost/wd2/older%20files/ProjectOne/index.php");
+            exit(); // Make sure to exit after redirection
         } else {
             echo "Incorrect password.";
         }
@@ -30,6 +35,7 @@ if ($_POST && !empty($_POST['email']) && !empty($_POST['password'])) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,6 +70,7 @@ if ($_POST && !empty($_POST['email']) && !empty($_POST['password'])) {
     </style>
 </head>
 <body>
+<?php include ('nav_guest.php'); ?>
     <div class="container">
         <h2 class="text-center mb-4">Login</h2>
         <form action="login.php" method="post">
@@ -88,25 +95,26 @@ if ($_POST && !empty($_POST['email']) && !empty($_POST['password'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Custom JavaScript -->
-    <script>
-        // Function to check if passwords match
-        function validatePassword() {
-            var password = document.getElementById("password").value;
-            var confirmPassword = document.getElementById("confirmPassword").value;
-            if (password != confirmPassword) {
-                alert("Passwords do not match.");
-                return false;
-            }
-            return true;
+    <!-- Update the script to directly select the form element -->
+<script>
+    // Function to check if passwords match
+    function validatePassword() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        if (password != confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
         }
+        return true;
+    }
 
-        // Add event listener to form submission
-        document.getElementById("userForm").addEventListener("submit", function(event) {
-            if (!validatePassword()) {
-                event.preventDefault(); // Prevent form submission if passwords don't match
-            }
-        });
-    </script>
+    // Add event listener to form submission
+    document.querySelector("form").addEventListener("submit", function(event) {
+        if (!validatePassword()) {
+            event.preventDefault(); // Prevent form submission if passwords don't match
+        }
+    });
+</script>
 </body>
 </html>
 

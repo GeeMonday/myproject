@@ -105,9 +105,6 @@ if (isset($_SESSION['id'])) {
         <a class="nav-link" href="admin.php">Admin</a>
     </li>
 <?php } ?>
-<li class="nav-item">
-            <a class="nav-link" href="admin.php">Admin</a>
-            </li>
     </ul>
 </div>
 </nav>

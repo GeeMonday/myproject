@@ -58,10 +58,21 @@ function getPlayerById($db, $player_id) {
     <title>Submit Comment</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS to reduce container size */
+        .custom-container {
+            max-width: 400px;
+            margin-top: 100px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            padding: 40px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1)
+        }
+    </style>
 </head>
 <body>
 <?php include('nav_guest.php'); ?>
-    <div class="container">
+<div class="container custom-container">
     <?php 
     // Check if the ID parameter is set in the URL
     if (isset($_GET['player_id'])) {
@@ -77,27 +88,27 @@ function getPlayerById($db, $player_id) {
         }
     }
     ?>
-        <form action="comment.php" method="post">
-            <div class="form-group">
-                <label for="name">Your Name:</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
-            </div>
-            <div class="form-group">
-                <label for="comment">Your Comment:</label>
-                <textarea class="form-control" id="comment" name="comment" placeholder="Enter your comment" required></textarea>
-            </div>
-            <!-- Display CAPTCHA image -->
-            <img src="captcha.php" class="img-fluid" alt="CAPTCHA Image"><br>
-            <div class="form-group">
-                <label for="captcha">Enter CAPTCHA:</label>
-                <input type="text" class="form-control" id="captcha" name="captcha" placeholder="Enter CAPTCHA" required>
-            </div>
-            <button type="submit" class="btn btn-primary" name="submit_comment">Submit Comment</button>
-        </form>
-    </div>
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <form action="comment.php" method="post">
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name" maxlength="30" required>
+        </div>
+        <div class="form-group">
+            <label for="comment">Your Comment:</label>
+            <textarea class="form-control" id="comment" name="comment" placeholder="Enter your comment" maxlength="200" required></textarea>
+        </div>
+        <!-- Display CAPTCHA image -->
+        <img src="captcha.php" class="img-fluid" alt="CAPTCHA Image"><br>
+        <div class="form-group">
+            <label for="captcha">Enter CAPTCHA:</label>
+            <input type="text" class="form-control" id="captcha" name="captcha" placeholder="CAPTCHA" maxlength="10" required>
+        </div>
+        <button type="submit" class="btn btn-primary" name="submit_comment">Submit Comment</button>
+    </form>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

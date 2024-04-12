@@ -32,7 +32,7 @@ function getPlayerById($db, $player_id) {
 <body>
 <?php
 // Start the main content div
-echo "<div id='main-content'>";
+echo "<div id='main-content'>"; 
 
 // Header section
 echo "<div id='header'>";

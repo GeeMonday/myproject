@@ -1,3 +1,14 @@
+<?php
+session_start(); // Start the session
+// Check if user is logged in
+if(isset($_SESSION['id'])) {
+    echo "Login successful!";
+} else {
+    // Redirect to login page or display login form
+    header("location: http://localhost/wd2/older%20files/ProjectOne/login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +21,7 @@
     
 </head>
 <body>
-<?php include('nav_guest.php'); ?>
+<?php include('nav.php'); ?>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <div class="container">
         <div id='header' class="jumbotron">
