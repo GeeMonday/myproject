@@ -49,13 +49,13 @@ if (isset($_SESSION['id'])) {
 }
 
 // Check if user is authorized to access admin page
-if (!$isAdmin) {
+/*if (!$isAdmin) {
     // Display error message directly
     echo "<h1>Access Denied</h1>";
     echo "<p>You are not authorized to access this page. This page is only accessible to administrators. Please contact the administrator for assistance.</p>";
 
     exit; // Stop further execution of the script
-}
+}*/
 
 // After the block where $isAdmin is assigned
 var_dump($userLoggedIn, $isAdmin); // Add this line for debugging

@@ -109,6 +109,13 @@ if ($_POST && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty(
                         <input type="text" class="form-control" id="skill_rating" name="skill_rating" required>
                     </div> 
                     <div class="form-group">
+        <label for="player_image">Player Image:</label>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="player_image" name="player_image">
+            <label class="custom-file-label" for="player_image">Choose file</label>
+        </div>
+    </div>
+                    <div class="form-group">
                  <label for="player_description"><h4>Interesting Facts</h4></label>
                 <!-- Use a textarea for interesting facts -->
                 <textarea class="form-control" id="player_description" name="player_description" rows="4"></textarea>

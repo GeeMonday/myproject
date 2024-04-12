@@ -17,5 +17,5 @@ imagestring($image, 5, 5, 5, $captcha, $textColor);
 ob_start();
 imagepng($image);
 $image_data = ob_get_clean();
-imagedestroy($image);d
+imagedestroy($image);
 ?>
