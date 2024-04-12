@@ -1,6 +1,4 @@
 <?php
-session_start(); // Start session for CAPTCHA verification
-
 // Database connection
 require('connect.php');
 
@@ -43,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
     }
 } else {
     // Redirect if form is not submitted
-    header('Location: pages.php');
+    header('Location: players.php');
     exit;
 }
 ?>
@@ -58,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<?php include('nav_guest.php'); ?>
     <div class="container">
         <h2>Submit Comment</h2>
         <form action="comment.php" method="post">
