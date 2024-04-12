@@ -10,7 +10,7 @@
     
 </head>
 <body>
-<?php include('nav.php'); ?>
+<?php include('nav_guest.php'); ?>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <div class="container">
         <div id='header' class="jumbotron">

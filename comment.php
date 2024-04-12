@@ -5,11 +5,10 @@ session_start(); // Start session for CAPTCHA verification
 require('connect.php');
 
 // Function to submit a comment
-function submitComment($db, $page_id, $name, $comment) {
-    $query = "INSERT INTO comments (page_id, name, comment) VALUES (:page_id, :name, :comment)";
+function submitComment($db, $name, $comment) {
+    $query = "INSERT INTO comments (name, comment) VALUES (:name, :comment)";
     $statement = $db->prepare($query);
-    $statement->bindParam(':page_id', $page_id, PDO::PARAM_INT);
-    $statement->bindParam(':page_name', $name, PDO::PARAM_STR);
+    $statement->bindParam(':name', $name, PDO::PARAM_STR);
     $statement->bindParam(':comment', $comment, PDO::PARAM_STR);
     return $statement->execute();
 }
@@ -17,8 +16,7 @@ function submitComment($db, $page_id, $name, $comment) {
 // Handle form submission for comments
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
     // Validate and sanitize form data
-    $page_id = filter_input(INPUT_POST, 'page_id', FILTER_VALIDATE_INT);
-    $name = filter_input(INPUT_POST, 'page_name', FILTER_SANITIZE_STRING);
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
     $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
     $captcha_input = $_POST['captcha'];
 
@@ -30,12 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
     }
 
     // Check if form inputs are not empty
-    if ($page_id && $name && $comment) {
+    if ($name && $comment) {
         // Submit comment to the database
-        if (submitComment($db, $page_id, $page_name, $comment)) {
-            // Redirect back to the page after successful submission
-            header('Location: pages.php?id=' . $page_id);
-            exit;
+        if (submitComment($db, $name, $comment)) {
+            // Show success message
+            echo "Comment submitted successfully!";
         } else {
             // Handle database error
             echo "Error: Unable to submit comment.";
@@ -50,3 +47,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
     exit;
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Comment</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2>Submit Comment</h2>
+        <form action="comment.php" method="post">
+            <div class="form-group">
+                <label for="name">Your Name:</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
+            </div>
+            <div class="form-group">
+                <label for="comment">Your Comment:</label>
+                <textarea class="form-control" id="comment" name="comment" placeholder="Enter your comment" required></textarea>
+            </div>
+            <!-- Display CAPTCHA image -->
+            <img src="captcha.php" class="img-fluid" alt="CAPTCHA Image"><br>
+            <div class="form-group">
+                <label for="captcha">Enter CAPTCHA:</label>
+                <input type="text" class="form-control" id="captcha" name="captcha" placeholder="Enter CAPTCHA" required>
+            </div>
+            <button type="submit" class="btn btn-primary" name="submit_comment">Submit Comment</button>
+        </form>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
