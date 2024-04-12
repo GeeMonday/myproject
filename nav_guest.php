@@ -34,9 +34,6 @@
                     <a class="nav-link" href="create_user.php">Create Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="comment.php">Comment</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="about_us.php">About us</a>
                 </li>
             </ul>

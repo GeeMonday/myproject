@@ -40,6 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
         echo "Error: Please fill in all required fields.";
     }
 } 
+// Function to get a player name by its ID
+function getPlayerById($db, $player_id) {
+    $query = "SELECT * FROM nbaeliteroster WHERE player_id = :player_id";
+    $statement = $db->prepare($query);
+    $statement->bindParam(':player_id', $player_id, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +62,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
 <body>
 <?php include('nav_guest.php'); ?>
     <div class="container">
-        <h2>Submit Comment</h2>
+    <?php 
+    // Check if the ID parameter is set in the URL
+    if (isset($_GET['player_id'])) {
+        // Get the player ID from the URL parameter
+        $player_id = $_GET['player_id'];
+
+        // Retrieve the player by ID
+        $selectedPlayer = getPlayerById($db, $player_id);
+
+        // If the player is found, display the comment form
+        if ($selectedPlayer) {
+            echo "<h3>Submit Comment for {$selectedPlayer['player_name']}</h3>";
+        }
+    }
+    ?>
         <form action="comment.php" method="post">
             <div class="form-group">
                 <label for="name">Your Name:</label>
