@@ -1,11 +1,13 @@
 <?php
-require('connect.php');
 
 // Check if the user is logged in
 if (isset($_SESSION['id'])) {
     try {
+        // Include the database connection file
+        require('connect.php');
+
         // Retrieve user information from the database
-        $query = "SELECT username role FROM users WHERE id = :id";
+        $query = "SELECT username, role FROM users WHERE id = :id"; // Separate columns with a comma
         $statement = $db->prepare($query);
         $statement->bindParam(':id', $_SESSION['id']);
         $statement->execute();
@@ -14,7 +16,7 @@ if (isset($_SESSION['id'])) {
         if ($user) {
             // User is authenticated
             $userLoggedIn = true;
-            $usernameFromDatabase = $user['name'];
+            $usernameFromDatabase = $user['username'];
             $userRole = $user['role'];
 
             // Check if user is admin
@@ -40,7 +42,12 @@ if (isset($_SESSION['id'])) {
     $isAdmin = false;
 }
 
+// If the user is not logged in, set a default value for usernameFromDatabase
+if (!$userLoggedIn) {
+    $usernameFromDatabase = 'User Profile'; // Display a default message
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +81,7 @@ if (isset($_SESSION['id'])) {
 <?php if ($userLoggedIn) { ?>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <?php echo ($usernameFromDatabase ? $usernameFromDatabase : 'User Profile'); ?>
+        <?php echo htmlspecialchars($usernameFromDatabase); ?>
         </a>
         <div class="dropdown-menu" aria-labelledby="userDropdown">
             <a class="dropdown-item" href="profile.php">Profile</a> <!-- Assuming profile.php is the user profile page -->
@@ -98,7 +105,7 @@ if (isset($_SESSION['id'])) {
     <a class="nav-link" href="about_us.php">About us</a>
 </li>
 <!-- Add conditional display for the Admin link based on user role -->
-<?php if ($isAdmin) { ?>
+<?php if ($userLoggedIn) { ?>
     <li class="nav-item">
         <a class="nav-link" href="admin.php">Admin</a>
     </li>
