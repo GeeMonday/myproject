@@ -10,34 +10,87 @@
 require('connect.php');
 require('authenticate.php');
 
+// Check if a file was uploaded
+if ($_FILES && isset($_FILES['player_image'])) {
+    // Accept only PNG and JPEG/JPG files
+    $allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    $fileType = $_FILES['player_image']['type'];
+    
+    if (!in_array($fileType, $allowedTypes)) {
+        echo "Error: Only PNG and JPEG/JPG files are allowed.";
+        exit;
+    }
+
+    $uploadDir = 'uploads/'; // Directory where uploaded images will be stored
+    $uploadFile = $uploadDir . basename($_FILES['player_image']['name']);
+    
+    // Move the uploaded file to the designated directory
+    if (move_uploaded_file($_FILES['player_image']['tmp_name'], $uploadFile)) {
+        // Automatically resize the image
+        list($width, $height) = getimagesize($uploadFile);
+        $newWidth = 200; // Set the new width (you can adjust this value as needed)
+        $aspectRatio = $width / $height;
+        $newHeight = $newWidth / $aspectRatio;
+        
+        // Create a new image from the uploaded file
+        if ($fileType === 'image/png') {
+            $image = imagecreatefrompng($uploadFile);
+        } else {
+            $image = imagecreatefromjpeg($uploadFile);
+        }
+
+        // Resize the image
+        $resizedImage = imagescale($image, $newWidth, $newHeight);
+        
+        // Save the resized image
+        if ($fileType === 'image/png') {
+            imagepng($resizedImage, $uploadFile);
+        } else {
+            imagejpeg($resizedImage, $uploadFile);
+        }
+
+        // Free up memory
+        imagedestroy($image);
+        imagedestroy($resizedImage);
+
+        echo "File is valid, and was successfully uploaded and resized.";
+    } else {
+        echo "Possible file upload attack!";
+    }
+}
+
 if ($_POST && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty($_POST['position']) && !empty($_POST['skill_rating'])) {
     // Sanitize user input
     $player_name = filter_input(INPUT_POST, 'player_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $team = filter_input(INPUT_POST, 'team', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $skill_rating = filter_input(INPUT_POST, 'skill_rating', FILTER_SANITIZE_NUMBER_INT);
-    $player_description = filter_input(INPUT_POST, 'player_description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    
-    // Build the parameterized SQL query and bind values
-    $query = "INSERT INTO nbaeliteroster (player_name, team, position, skill_rating) VALUES (:player_name, :team, :position, :skill_rating)";
-    $statement = $db->prepare($query);
-    $statement->bindValue(':player_name', $player_name);
-    $statement->bindValue(':team', $team);
-    $statement->bindValue(':position', $position);
-    $statement->bindValue(':skill_rating', $skill_rating);
+    $player_image = filter_input(INPUT_POST, 'player_image', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+     // Use the path where the image was uploaded
+    $player_image = $uploadFile;
+// bind paramters
+$query = "INSERT INTO nbaeliteroster (player_name, team, position, skill_rating, player_image) VALUES (:player_name, :team, :position, :skill_rating, :player_image)";
+$statement = $db->prepare($query);
+$statement->bindValue(':player_name', $player_name);
+$statement->bindValue(':team', $team);
+$statement->bindValue(':position', $position);
+$statement->bindValue(':skill_rating', $skill_rating);
+$statement->bindValue(':player_image', $player_image);
+
     
     // Execute the INSERT query
     if($statement->execute()){
         echo "Player created successfully!";
         
         // Get the ID of the newly inserted player
-        $player_id = $db->lastInsertId();
+        $name = $db->lastInsertId();
         
         // Save the comment in the comments table
-        $query = "INSERT INTO comments (player_id, comment) VALUES (:player_id, :comment)";
+        $query = "INSERT INTO comments (name, comment) VALUES (:name, :comment)";
         $statement = $db->prepare($query);
-        $statement->bindValue(':player_id', $player_id);
-        $statement->bindValue(':comment', $player_description);
+        $statement->bindValue(':name', $name);
+        $statement->bindValue(':comment', $comments);
         $statement->execute();
     } else {
         echo "Failed to create player.";

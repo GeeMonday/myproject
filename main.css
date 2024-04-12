@@ -261,6 +261,15 @@ td {
     background-color: #F5DEB3;
 }
 
+/* Custom styling for file input button */
+.custom-file-input {
+    cursor: pointer;
+}
+
+.custom-file-label::after {
+    content: "Upload"; /* Text for the button */
+}
+
 /* Style the footer */
 #footer {
     color: #0b0a0a;

@@ -70,7 +70,7 @@ if (isset($_GET['player_id'])) {
         echo "<p><strong>Team:</strong> {$selectedPlayer['team']}</p>";
         echo "<p><strong>Position:</strong> {$selectedPlayer['position']}</p>";
         echo "<p><strong>Skill Rating:</strong> {$selectedPlayer['skill_rating']}</p>"; 
-        
+        /*
         // Retrieve the player description from the comments table
         $query = "SELECT comment FROM comments WHERE player_id = :player_id";
         $statement = $db->prepare($query);
@@ -85,6 +85,10 @@ if (isset($_GET['player_id'])) {
         } else {
             echo "<p>No interesting facts available.</p>";
         }
+        */
+
+        // Adding submit comment link
+        echo "<a href='comment.php?player_id={$player_id}'>Submit Comment</a>";
 
         echo "</div>";
     } else {
