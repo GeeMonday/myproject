@@ -1,43 +1,31 @@
 <?php
+require('connect.php');
+try {
+    // Database connection setup
+    // Assuming $db is already established
 
-session_start(); // Start the session
+    // Retrieve user information from the database
+    $query = "SELECT username, role FROM users WHERE id = :id";
+    $statement = $db->prepare($query);
+    $statement->bindParam(':id', $_SESSION['id']);
+    $statement->execute();
+    $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-// Check if the user is logged in
-if (isset($_SESSION['id'])) {
-    try {
-        // Retrieve user information from the database
-        $query = "SELECT username, role FROM users WHERE id = :id";
-        $statement = $db->prepare($query);
-        $statement->bindParam(':id', $_SESSION['id']);
-        $statement->execute();
-        $user = $statement->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-            // User is authenticated
-            $userLoggedIn = true;
-            $usernameFromDatabase = $user['username'];
-            $userRole = $user['role'];
-
-            // Check if user is admin
-            $isAdmin = ($userRole === 'admin');
-        } else {
-            // User not found in database
-            $userLoggedIn = false;
-            $usernameFromDatabase = '';
-            $isAdmin = false;
-        }
-    } catch (PDOException $e) {
-        // Error occurred while fetching user information
-        $userLoggedIn = false;
+    if ($user) {
+        // User is authenticated
+        $usernameFromDatabase = $user['username'];
+        $userRole = $user['role'];
+    } else {
+        // User not found in database
         $usernameFromDatabase = '';
-        $isAdmin = false;
-        echo "Error: " . $e->getMessage();
+        $userRole = '';
+        echo "Error: User not found in the database.";
     }
-} else {
-    // User not logged in
-    $userLoggedIn = false;
+} catch (PDOException $e) {
+    // Error occurred while fetching user information
     $usernameFromDatabase = '';
-    $isAdmin = false;
+    $userRole = '';
+    echo "Error: " . $e->getMessage();
 }
 ?>
 
@@ -61,7 +49,6 @@ if (isset($_SESSION['id'])) {
     </style>
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="#">Admin Dashboard</a>
@@ -74,7 +61,6 @@ if (isset($_SESSION['id'])) {
                 <li class="nav-item">
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
-                <?php if ($isAdmin) { ?>
                     <li class="nav-item">
                         <a class="nav-link" href="Admin Dashboard\players\manage_players.php">Manage Players</a>
                     </li>
@@ -87,10 +73,8 @@ if (isset($_SESSION['id'])) {
                     <li class="nav-item">
                         <a class="nav-link" href="create_category.php">Manage Categories</a>
                     </li>
-                <?php } ?>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <?php if ($userLoggedIn) { ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?php echo htmlspecialchars($usernameFromDatabase); ?>
@@ -101,14 +85,6 @@ if (isset($_SESSION['id'])) {
                             <a class="dropdown-item" href="logout.php">Log out</a>
                         </div>
                     </li>
-                <?php } else { ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register.php">Register</a>
-                    </li>
-                <?php } ?>
             </ul>
         </div>
     </div>

@@ -8,63 +8,23 @@
 
 ****************/
 require('connect.php');
-require('authenticate.php');
 
-// Check if the user is logged in
-if (isset($_SESSION['id'])) {
-    try {
-        // Retrieve user information from the database
-        $query = "SELECT username, role FROM users WHERE id = :id";
-        $statement = $db->prepare($query);
-        $statement->bindParam(':id', $_SESSION['id']);
-        $statement->execute();
-        $user = $statement->fetch(PDO::FETCH_ASSOC);
+// Retrieve user information from the database
+$query = "SELECT username, role FROM users WHERE id = :id";
+$statement = $db->prepare($query);
+$statement->bindParam(':id', $_SESSION['id']);
+$statement->execute();
+$user = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            // User is authenticated
-            $userLoggedIn = true;
-            $usernameFromDatabase = $user['username'];
-            $userRole = $user['role'];
-
-            // Check if user is admin
-            $isAdmin = ($userRole === 'admin');
-        } else {
-            // User not found in database
-            $userLoggedIn = false;
-            $usernameFromDatabase = '';
-            $isAdmin = false;
-        }
-    } catch (PDOException $e) {
-        // Error occurred while fetching user information
-        $userLoggedIn = false;
-        $usernameFromDatabase = '';
-        $isAdmin = false;
-        echo "Error: " . $e->getMessage();
-    }
-} else {
-    // User not logged in
-    $userLoggedIn = false;
-    $usernameFromDatabase = '';
-    $isAdmin = false;
-}
-
-// Check if user is authorized to access admin page
-/*if (!$isAdmin) {
-    // Display error message directly
-    echo "<h1>Access Denied</h1>";
-    echo "<p>You are not authorized to access this page. This page is only accessible to administrators. Please contact the administrator for assistance.</p>";
-
-    exit; // Stop further execution of the script
-}*/
-
-// After the block where $isAdmin is assigned
-var_dump($userLoggedIn, $isAdmin); // Add this line for debugging
+// After the block where $user is fetched
+var_dump($user); // Add this line for debugging
 
 // Retrieve all data from the database
 $query = "SELECT * FROM nbaeliteroster";
 $statement = $db->query($query);
 $players = $statement->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
  <!DOCTYPE html>
 <html lang="en">
 <head>
