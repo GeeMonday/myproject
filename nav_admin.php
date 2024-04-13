@@ -1,4 +1,5 @@
 <?php
+
 session_start(); // Start the session
 
 // Check if the user is logged in
@@ -75,7 +76,7 @@ if (isset($_SESSION['id'])) {
                 </li>
                 <?php if ($isAdmin) { ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="manage_players.php">Manage Players</a>
+                        <a class="nav-link" href="Admin Dashboard\players\manage_players.php">Manage Players</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="manage_comments.php">Manage Comments</a>
