@@ -79,7 +79,7 @@ $players = $statement->fetchAll(PDO::FETCH_ASSOC);
     <?php include('nav_admin.php'); ?>
     <div class="container mt-5">
             <div id="header">
-                <h2>Page Administration</h2>
+                <h2>Manage  Players</h2>
             </div>
             <!-- Button to create a new player -->
             <div class="mt-4 mb-4">
