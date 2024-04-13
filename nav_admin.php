@@ -4,9 +4,6 @@ session_start(); // Start the session
 // Check if the user is logged in
 if (isset($_SESSION['id'])) {
     try {
-        // Include the database connection file
-        require('connect.php');
-
         // Retrieve user information from the database
         $query = "SELECT username, role FROM users WHERE id = :id";
         $statement = $db->prepare($query);
