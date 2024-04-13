@@ -66,7 +66,6 @@ if (isset($_GET['player_id'])) {
             echo "<p>No images available</p>";
         }
         echo "<h2>{$selectedPlayer['player_name']}</h2>";
-        echo "<p><strong>Player ID:</strong> {$selectedPlayer['player_id']}</p>";
         echo "<p><strong>Team:</strong> {$selectedPlayer['team']}</p>";
         echo "<p><strong>Position:</strong> {$selectedPlayer['position']}</p>";
         echo "<p><strong>Skill Rating:</strong> {$selectedPlayer['skill_rating']}</p>"; 

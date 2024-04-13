@@ -67,7 +67,7 @@ if (isset($_SESSION['id'])) {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <?php if ($isAdmin) { ?>
                     <li class="nav-item">
@@ -80,7 +80,7 @@ if (isset($_SESSION['id'])) {
                         <a class="nav-link" href="manage_users.php">Manage Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="manage_categories.php">Manage Categories</a>
+                        <a class="nav-link" href="create_category.php">Manage Categories</a>
                     </li>
                 <?php } ?>
             </ul>
