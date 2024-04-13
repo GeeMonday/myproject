@@ -71,7 +71,7 @@ function getPlayerById($db, $player_id) {
     </style>
 </head>
 <body>
-<?php include('nav_guest.php'); ?>
+<?php include('nav.php'); ?>
 <div class="container custom-container">
     <?php 
     // Check if the ID parameter is set in the URL
@@ -84,7 +84,7 @@ function getPlayerById($db, $player_id) {
 
         // If the player is found, display the comment form
         if ($selectedPlayer) {
-            echo "<h3>Submit Comment for {$selectedPlayer['player_name']}</h3>";
+            echo "<h3>Intresting facts for {$selectedPlayer['player_name']}</h3>";
         }
     }
     ?>

@@ -72,9 +72,9 @@ if (isset($_GET['player_id'])) {
         echo "<p><strong>Skill Rating:</strong> {$selectedPlayer['skill_rating']}</p>"; 
         /*
         // Retrieve the player description from the comments table
-        $query = "SELECT comment FROM comments WHERE player_id = :player_id";
+        $query = "SELECT comment FROM comments WHERE comment_id = :comment_id";
         $statement = $db->prepare($query);
-        $statement->bindValue(':player_id', $player_id);
+        $statement->bindValue(':comment_id', $comment_id);
         $statement->execute();
         $comment_result = $statement->fetch(PDO::FETCH_ASSOC);
 
@@ -88,7 +88,7 @@ if (isset($_GET['player_id'])) {
         */
 
         // Adding submit comment link
-        echo "<a href='comment.php?player_id={$player_id}'>Submit Comment</a>";
+        echo "<a href='comment.php?player_id={$player_id}'>add an intresting facts for this player</a>";
 
         echo "</div>";
     } else {

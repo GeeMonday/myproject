@@ -78,6 +78,8 @@ if ($_POST && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_
     // execute() will check for possible SQL injection and remove if necessary
     if($statement->execute()){
         echo "User created successfully!";
+        // Redirect to dashboard or another page
+        header("location: http://localhost/wd2/older%20files/ProjectOne/index.php");
     } else {
         echo "Failed to create user.";
     }
@@ -119,7 +121,6 @@ if ($_POST && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_
 </head>
 <body>
     <div class="container">
-    <a href="index.php" class="text-decoration-none">
     <h2 class="text-center mb-4">Create User Profile</h2>
 </a>
         <form action="create_user.php" method="post" id="userForm">
@@ -139,6 +140,7 @@ if ($_POST && !empty($_POST['username']) && !empty($_POST['email']) && !empty($_
                 <label for="confirmPassword">Confirm Password:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
+            <p> already have an account, <a href= "login.php">login here!</a></p>
             <button type="submit" class="btn btn-create">Create User</button>
         </form>
     </div>

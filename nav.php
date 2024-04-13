@@ -101,15 +101,15 @@ if (!$userLoggedIn) {
         </div>
     </li>
 <?php } ?>
-<li class="nav-item">
-    <a class="nav-link" href="about_us.php">About us</a>
-</li>
 <!-- Add conditional display for the Admin link based on user role -->
 <?php if ($userLoggedIn) { ?>
     <li class="nav-item">
         <a class="nav-link" href="admin.php">Admin</a>
     </li>
 <?php } ?>
+<li class="nav-item">
+    <a class="nav-link" href="about_us.php">About us</a>
+</li>
     </ul>
 </div>
 </nav>

@@ -70,7 +70,6 @@ if ($_POST && !empty($_POST['email']) && !empty($_POST['password'])) {
     </style>
 </head>
 <body>
-<?php include ('nav.php'); ?>
     <div class="container">
         <h2 class="text-center mb-4">Login</h2>
         <form action="login.php" method="post">
@@ -86,6 +85,7 @@ if ($_POST && !empty($_POST['email']) && !empty($_POST['password'])) {
                 <label for="confirmPassword">Confirm Password:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
+            <p> don't have an account, <a href= "create_user.php">Sign up here!</a></p>
             <button type="submit" class="btn btn-login">Login</button>
         </form>
     </div>

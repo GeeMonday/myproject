@@ -5,7 +5,7 @@ require('connect.php'); // Include the file to establish the database connection
 $categoriesQuery = $db->query("SELECT * FROM positions");
 $categories = $categoriesQuery->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<?php include('nav.php'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +41,7 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
-
+<?php include('nav.php'); ?>
 <div class="container">
     <h2>Categories</h2>
     <div class="row">

@@ -37,9 +37,10 @@ if($statement->execute()){
                 <label for="category_name">Category Name:</label>
                 <input type="text" id="category_name" name="category_name" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Create Category</button>
-        </form>
-    </div>
+        <?php if ($userLoggedIn) { ?>
+                <button type="submit" class="btn btn-primary">Create Category</button>
+        <?php } ?>
+           </div>
 
     <!-- Bootstrap JS and dependencies (optional) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

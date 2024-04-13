@@ -1,14 +1,27 @@
 <?php
 session_start(); // Start the session
+
 // Check if user is logged in
 if(isset($_SESSION['id'])) {
     echo "Login successful!";
 } else {
     // Redirect to login page or display login form
-    header("location: http://localhost/wd2/older%20files/ProjectOne/login.php");
+    header("location: http://localhost/wd2/older%20files/ProjectOne/index.php");
+    exit();
+}
+
+// Check if user is created successfully
+if(isset($_SESSION['user_created'])) {
+    echo "User created successfully!";
+    // Unset the session variable to avoid showing this message again on page refresh
+    unset($_SESSION['user_created']);
+} else {
+    // Redirect to create user page or display user creation form
+    header("location: http://localhost/wd2/older%20files/ProjectOne/create_user.php");
     exit();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
