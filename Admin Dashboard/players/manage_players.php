@@ -98,6 +98,11 @@ $players = $statement->fetchAll(PDO::FETCH_ASSOC);
                             <a href="post.php?player_id=<?= isset($player['player_id']) ? $player['player_id'] : 'N/A' ?>">
                                 <?= isset($player['player_name']) ? $player['player_name'] : 'N/A' ?>
                             </a>
+                            <!-- Edit and Delete buttons -->
+                            <div class="btn-group" role="group">
+                                <a href="edit.php?player_id=<?= $player['player_id'] ?>" class="btn btn-info">Edit</a>
+                                <a href="delete.php?player_id=<?= $player['player_id'] ?>" class="btn btn-danger">Delete</a>
+                            </div>
                         </li>
                         <p></p>
                     <?php endforeach; ?>
@@ -120,4 +125,3 @@ $players = $statement->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
