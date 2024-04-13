@@ -54,12 +54,13 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
     </div>
-    <!-- Button to create a new category -->
+    <!--
+    Button to create a new category
     <div class="button-container">
-    <!-- Button to create a new category -->
+    Button to create a new category
     <a href="create_category.php" class="btn btn-primary">Create New Category</a>
 </div>
-
+    -->
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

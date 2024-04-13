@@ -76,7 +76,7 @@ $players = $statement->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <?php include('nav.php'); ?>
+    <?php include('nav_admin.php'); ?>
     <div class="container mt-5">
             <div id="header">
                 <h2><a href="index.php">Page Administration</a></h2>
