@@ -40,6 +40,18 @@ if(isset($_SESSION['user_created'])) {
                 With a diverse range of positions and skill ratings, the NBA Elite Roster pays tribute to the greatness of the 90's NBA era.
             </p>
         </div>
+        <div class="jumbotron">
+            <h1 class="display-3">About Us</h1>
+        <h2 class="display-4">Welcome to NBA Elite Rooster!</h2>
+        <p class="lead">At NBA Elite Rooster, we're passionate about basketball and dedicated to providing the ultimate experience for fans and enthusiasts alike.</p>
+        <hr class="my-4">
+        <p>We are your go-to destination for comprehensive coverage of the NBA, from player stats and game analysis to in-depth articles and commentary.</p>
+        <p>Our mission is to empower basketball enthusiasts with the latest news, insights, and updates, making NBA Elite Rooster the premier content management site for fans around the world.</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="index.php" role="button">Explore Now</a>
+        </p>
+    </div>
+</div>
 
         <footer id='footer' class="text-center">
             <h3>CopyRight 2024 - All Right Reserved. </h3>
@@ -50,6 +62,5 @@ if(isset($_SESSION['user_created'])) {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <?php include ('about_us.php'); ?>
 </body>
 </html>

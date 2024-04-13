@@ -87,7 +87,7 @@ if (isset($_GET['player_id'])) {
         */
 
         // Adding submit comment link
-        echo "<a href='comment.php?player_id={$player_id}'>add an intresting facts for this player</a>";
+        echo "<a href='comment.php?player_id={$player_id}'>add an intresting fact to this player</a>";
 
         echo "</div>";
     } else {

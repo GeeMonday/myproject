@@ -52,7 +52,6 @@ if (!$user) {
 <body>
     <div class="container">
         <h2>User Profile</h2>
-        <p><strong>ID:</strong> <?php echo $user['id']; ?></p>
         <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
         <p><strong>Name:</strong> <?php echo $user['username']; ?></p>
         <!-- Add more profile information here as needed -->

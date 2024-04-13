@@ -57,6 +57,15 @@ if (!$userLoggedIn) {
     <title>NBA Elite Rooster</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS for left-aligned navigation */
+        .nav-vertical {
+            flex-direction: column;
+        }
+        .navbar-collapse {
+            justify-content: flex-start;
+        }
+    </style>
 </head>
 <body>
 
