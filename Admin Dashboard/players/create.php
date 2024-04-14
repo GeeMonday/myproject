@@ -8,6 +8,7 @@
 
 ****************/
 require('connect.php');
+require ('authenticate.php');
 // Check if a file was uploaded
 if ($_FILES && isset($_FILES['player_image'])) {
     // Accept only PNG and JPEG/JPG files

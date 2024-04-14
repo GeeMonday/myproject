@@ -9,7 +9,7 @@
 ****************/
 
 require('connect.php'); 
-
+require ('authenticate.php');
 function getPlayerById($db, $player_id) {
     $query = "SELECT * FROM nbaeliteroster WHERE player_id = :player_id"; // Updated to use 'player_id'
     $statement = $db->prepare($query);
