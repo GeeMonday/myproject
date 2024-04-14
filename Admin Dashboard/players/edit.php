@@ -9,7 +9,6 @@
 ****************/
 
 require('connect.php'); 
-require('authenticate.php');
 
 function getPlayerById($db, $player_id) {
     $query = "SELECT * FROM nbaeliteroster WHERE player_id = :player_id"; // Updated to use 'player_id'
@@ -97,8 +96,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_comment'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
     <title>Edit Player Data</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Include TinyMCE script -->
     <script src="https://cdn.tiny.cloud/1/91x1238q9wh2ldf8mgvhy4pnp6xabrihkrrjse0ij3k3whxu/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
@@ -111,35 +111,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_comment'])) {
         });
     </script>
 </head>
-<?php include('nav.php'); ?>
+<?php include('nav_admin.php'); ?>
 <body>
-    <div id='main-content'>
-        <div id='header'>
-            <h2><a href='players.php'>Edit Player</a></h2>
-        </div> 
-        <!-- HTML form for editing player data -->
-        <form action="edit.php?player_id=<?php echo $player_id ?>" method="post">
-            <label for="player_name">Player Name:</label>
-            <input type="text" id="player_name" name="player_name" value="<?php echo isset($player['player_name']) ? $player['player_name'] : '' ?>" required>
-            <br>
-            <label for="team">Team:</label>
-            <input type="text" id="team" name="team" value="<?php echo isset($player['team']) ? $player['team'] : '' ?>" required>
-            <br>
-            <label for="position">Position:</label>
-            <input type="text" id="position" name="position" value="<?php echo isset($player['position']) ? $player['position'] : '' ?>" required>
-            <br>
-            <label for="skill_rating">Skill Rating:</label>
-            <input type="text" id="skill_rating" name="skill_rating" value="<?php echo isset($player['skill_rating']) ? $player['skill_rating'] : '' ?>" required>
-            <br>
-            <br>
-            <div class="form-group">
-                 <label for="player_description"><h4>Interesting Facts</h4></label>
-                <!-- Use a textarea for interesting facts -->
-                <textarea class="form-control" id="player_description" name="player_description" rows="4"></textarea>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center"><a href='players.php'>Edit Player</a></h2>
                     </div>
-            <br>
-            <input type="submit" name="update" value="Update">
-        </form>
+                    <div class="card-body">
+                        <!-- HTML form for editing player data -->
+                        <form action="edit.php?player_id=<?php echo $player_id ?>" method="post">
+                            <div class="form-group">
+                                <label for="player_name">Player Name:</label>
+                                <input type="text" id="player_name" name="player_name" class="form-control" value="<?php echo isset($player['player_name']) ? $player['player_name'] : '' ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="team">Team:</label>
+                                <input type="text" id="team" name="team" class="form-control" value="<?php echo isset($player['team']) ? $player['team'] : '' ?>" required>
+                            </div>
+                            <div class="form-group">
+    <label for="position">Position:</label>
+    <input type="text" id="position" name="position" class="form-control" value="<?php echo isset($player['position']) ? $player['position'] : '' ?>" readonly>
+</div>
+                            <div class="form-group">
+                                <label for="skill_rating">Skill Rating:</label>
+                                <input type="text" id="skill_rating" name="skill_rating" class="form-control" value="<?php echo isset($player['skill_rating']) ? $player['skill_rating'] : '' ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="player_description"><h4>Interesting Facts</h4></label>
+                                <!-- Use a textarea for interesting facts -->
+                                <textarea class="form-control" id="player_description" name="player_description" rows="4"></textarea>
+                            </div>
+                            <button type="submit" name="update" class="btn btn-primary btn-block">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
