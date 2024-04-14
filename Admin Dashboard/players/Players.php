@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST['player_name']) && !e
     <title>NBA Elite Roster</title>
 </head>
 <body>
-<?php include('nav.php'); ?>
+<?php include('nav_admin.php'); ?>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <div id='main-content'>
         <div id='header'>

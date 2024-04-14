@@ -1,0 +1,282 @@
+label {
+    display: block
+}
+
+input#title {
+    width: 40em
+}
+
+textarea {
+    height: 10em;
+    width: 55em
+}
+
+body {
+    background-image: url('./Images/bbackground_image.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.nav-box {  
+    padding: 10px; 
+    display:block;
+    font-weight: bold;
+    background-color: #4CAF50;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul#nav-content li {
+    display: inline
+}
+
+
+ul#nav-content {
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 4px
+}
+
+ul#nav-content li a.active {
+    border: 2px solid grey;
+    background: #999;
+    color:#DAA520;
+    text-decoration: none;
+    font-weight: 700
+}
+
+ul#nav-content li a:hover {
+    color: #000
+}
+
+h1,h2 {
+    font-family: Cambria,times,serif
+    
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 5px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-weight:700;
+    color: #DAA520;
+}
+
+#header {
+    margin-top: 0;
+    color: #2544e1;
+    font-size: 2.5em
+    
+}
+
+#post h2 a,#header h2 a {
+    text-decoration: none;
+    color: #000
+}
+
+.post h2 {
+    margin-bottom: 0;
+}
+
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+#main-content {
+    width: 1000px;
+    margin: 12px auto;
+    text-align:  left;
+    border: 1px solid #000000;
+    padding: 20px;
+    background-color: #F5F5DC;
+}
+
+#All_blogs {
+    border: 2px solid grey;
+    padding: 0 10px 10px
+}
+
+.posts {
+    text-align: left;
+    border: 2px solid grey;
+    margin-bottom: 10px;
+    padding: 0 10px 10px
+    
+   
+}
+
+.posts h2 a {
+    text-decoration: none;
+    color: #000;
+}
+
+.posts p {
+    margin-top: 0
+}
+
+#All_blogs {
+    font-family: Calibri,sans-serif
+}
+
+.main content  h2 a {
+    text-decoration:none;
+    color: #000; 
+}
+
+/* Style the header */
+#header {
+    color: #000000;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Style the navigation */
+nav {
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Apply some basic styles to the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+/* Style the table header */
+th {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #dddddd; /* Add border to header cells */
+}
+
+
+/* Style table cells */
+td {
+    font-size: medium;
+    font-weight: bold;
+    padding: 8px;
+    border: 1px solid #dddddd; /* Add border to data cells */
+}
+
+/* Style the <th> elements as <h1> */
+.nba-roster th {
+    font-size: 24px; /* Example font size for <h1> */
+    font-weight: bold; /* Example font weight for <h1> */
+    /* Add any additional styles as needed */
+}
+
+/* Style the <td> elements as <h2> */
+.nba-roster td {
+    font-size: 20px; /* Example font size for <h2> */
+    /* Add any additional styles as needed */
+}
+
+.nba-roster td h2 a {
+    font-size: 20px; 
+    text-decoration: none;
+    color: #000000;
+}
+
+
+/* Style for edit button */
+.edit-btn {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Hover effect for edit button */
+.edit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Style for delete button */
+.delete-btn {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.player-image {
+    width: 200px;
+    height: auto; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 20px; 
+}
+
+
+/* Hover effect for delete button */
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+.button-container {
+    position:relative;
+    top: 20px;
+    right: 20px;
+    float: right;
+}
+.button-container button {
+    padding: 10px 20px;
+    background-color:#F0E68C;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.button-container button:hover {
+    background-color: #F5DEB3;
+}
+
+/* Custom styling for file input button */
+.custom-file-input {
+    cursor: pointer;
+}
+
+.custom-file-label::after {
+    content: "Upload"; /* Text for the button */
+}
+
+/* Style the footer */
+#footer {
+    color: #0b0a0a;
+    padding: 10px;
+    text-align: right;
+}
+
+
+
+
