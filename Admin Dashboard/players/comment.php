@@ -71,7 +71,7 @@ function getPlayerById($db, $player_id) {
     </style>
 </head>
 <body>
-<?php include('nav.php'); ?>
+<?php include('nav_admin.php'); ?>
 <div class="container custom-container">
     <?php 
     // Check if the ID parameter is set in the URL
