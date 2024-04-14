@@ -8,8 +8,6 @@
 
 ****************/
 require('connect.php');
-require('authenticate.php');
-
 // Check if a file was uploaded
 if ($_FILES && isset($_FILES['player_image'])) {
     // Accept only PNG and JPEG/JPG files
@@ -128,14 +126,12 @@ $statement->bindValue(':player_image', $player_image);
     </style>
 </head>
 <body>
-    <?php include('nav.php'); ?>
+    <?php include('nav_admin.php'); ?>
     <div class="container mt-5">
         <div id="main-content">
-            <div class='header'>
-                <h2><a href='index.php'> Create New Player</a></h2>
-            </div>
             <div class="post">
-                <h1>New Player</h1>
+            <h1 class="text-center">Create New Player</h1>
+
                 <!-- HTML form for creating a new table to the Elite Rosters database -->
                 <form action="players.php" method="post">
                     <div class="form-group">
