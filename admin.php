@@ -81,13 +81,6 @@ $players = $statement->fetchAll(PDO::FETCH_ASSOC);
             <div id="header">
                 <h2>Page Administration</h2>
             </div>
-            <!-- Button to create a new player -->
-            <div class="mt-4 mb-4">
-                <form action="create.php" method="get">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block"><strong>Create Player</strong></button>
-                </form>
-            </div>
-
             <?php if ($players) : ?>
                 <!-- Display the data as a list -->
                 <ul class="list-group">

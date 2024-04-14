@@ -54,11 +54,9 @@ $players = $statement->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($players as $player) : ?>
                         <!-- Display player name as a list item -->
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <!-- Player name as a link to post.php page -->
-                            <a href="post.php?player_id=<?= isset($player['player_id']) ? $player['player_id'] : 'N/A' ?>">
-                                <?= isset($player['player_name']) ? $player['player_name'] : 'N/A' ?>
-                            </a>
-                            <!-- Edit and Delete buttons -->
+                            <!-- Display player name -->
+                          <?= isset($player['player_name']) ? $player['player_name'] : 'N/A' ?>
+                          <!-- Edit and Delete buttons -->
                             <div class="btn-group" role="group">
                                 <a href="edit.php?player_id=<?= $player['player_id'] ?>" class="btn btn-info">Edit</a>
                                 <a href="delete.php?player_id=<?= $player['player_id'] ?>" class="btn btn-danger">Delete</a>

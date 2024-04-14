@@ -1,5 +1,4 @@
 <?php
-require('connect.php');
 try {
     // Database connection setup
     // Assuming $db is already established

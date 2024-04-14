@@ -1,5 +1,4 @@
 <?php
-require('connect.php');
 try {
     // Database connection setup
     // Assuming $db is already established
@@ -62,7 +61,7 @@ try {
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Admin Dashboard\players\manage_players.php">Manage Players</a>
+                        <a class="nav-link" href="manage_players.php">Manage Players</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="manage_comments.php">Manage Comments</a>

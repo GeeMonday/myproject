@@ -41,7 +41,7 @@ if(isset($_SESSION['user_created'])) {
             </p>
         </div>
         <div class="jumbotron">
-            <h1 class="display-3">About Us</h1>
+            <h2 class="display-3">About Us </h2>
         <h2 class="display-4">Welcome to NBA Elite Rooster!</h2>
         <p class="lead">At NBA Elite Rooster, we're passionate about basketball and dedicated to providing the ultimate experience for fans and enthusiasts alike.</p>
         <hr class="my-4">
