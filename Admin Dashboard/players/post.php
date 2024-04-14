@@ -19,7 +19,7 @@ function getPlayerById($db, $player_id) {
 }
 
 ?>
-<?php include('nav.php'); ?>
+<?php include('nav_admin.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
