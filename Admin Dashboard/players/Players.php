@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST['player_name']) && !e
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <div id='main-content'>
         <div id='header'>
-            <h2><a href='index.php'>Players</a></h2>
+            <h2>Players</h2>
 <?php
         // Retrieve all data from the database
         $query = "SELECT * FROM nbaeliteroster";

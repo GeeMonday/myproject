@@ -7,7 +7,6 @@
 
 ****************/
 require('connect.php'); 
-require('authenticate.php');
 
 function getPlayerById($db, $player_id) {
     $query = "SELECT * FROM nbaeliteroster WHERE player_id = :player_id";
@@ -74,7 +73,7 @@ if (isset($_GET['player_id'])) {
     <link rel="stylesheet" href="main.css">
     <title>Edit Elite Roster Table</title>
 </head>
-<?php include('nav.php'); ?>
+<?php include('nav_admin.php'); ?>
 <body>
     <div id='main-content'>
         <div id='header'>
