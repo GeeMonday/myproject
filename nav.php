@@ -42,10 +42,6 @@ if (isset($_SESSION['id'])) {
     $isAdmin = false;
 }
 
-// If the user is not logged in, set a default value for usernameFromDatabase
-if (!$userLoggedIn) {
-    $usernameFromDatabase = 'User Profile'; // Display a default message
-}
 ?>
 
 
@@ -84,7 +80,7 @@ if (!$userLoggedIn) {
         <?php echo htmlspecialchars($usernameFromDatabase); ?>
         </a>
         <div class="dropdown-menu" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="profile.php">Profile</a> <!-- Assuming profile.php is the user profile page -->
+            <a class="dropdown-item" href="profile.php">Profile</a> 
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="logout.php">Log out</a>
         </div>

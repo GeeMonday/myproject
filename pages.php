@@ -1,5 +1,10 @@
 <?php
 require('connect.php');
+session_start(); // Start the session
+
+
+// Check if user is logged in
+$userLoggedIn = isset($_SESSION['id']);
 
 // Check if category_id is provided
 if (isset($_GET['category_id'])):

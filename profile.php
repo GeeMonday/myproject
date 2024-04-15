@@ -1,6 +1,6 @@
 <?php
 session_start(); // Start the session
-require('connect.php'); // Include database connection file
+require_once('connect.php'); // Include database connection file
 
 // Check if user is logged in
 if (!isset($_SESSION['id'])) {
@@ -50,6 +50,7 @@ if (!$user) {
     </style>
 </head>
 <body>
+<?php include('nav.php'); ?>
     <div class="container">
         <h2>User Profile</h2>
         <p><strong>Email:</strong> <?php echo $user['email']; ?></p>

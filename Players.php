@@ -1,5 +1,9 @@
 <?php
-require('connect.php');
+session_start(); // Start the session
+require_once('connect.php'); // Use require_once to include connect.php only once
+
+// Check if user is logged in
+$userLoggedIn = isset($_SESSION['id']);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty($_POST['position']) && !empty($_POST['skill_rating'])) {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.

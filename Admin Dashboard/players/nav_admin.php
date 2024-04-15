@@ -1,29 +1,32 @@
 <?php
+
+// Initialize variables
+$userLoggedIn = false;
+$usernameFromDatabase = '';
+$userRole = '';
+
 try {
-    // Database connection setup
-    // Assuming $db is already established
+    // Check if the user is logged in
+    if (isset($_SESSION['id'])) {
+        // Retrieve user information from the database
+        $query = "SELECT username, role FROM users WHERE id = :id";
+        $statement = $db->prepare($query);
+        $statement->bindParam(':id', $_SESSION['id']);
+        $statement->execute();
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-    // Retrieve user information from the database
-    $query = "SELECT username, role FROM users WHERE id = :id";
-    $statement = $db->prepare($query);
-    $statement->bindParam(':id', $_SESSION['id']);
-    $statement->execute();
-    $user = $statement->fetch(PDO::FETCH_ASSOC);
-
-    if ($user) {
-        // User is authenticated
-        $usernameFromDatabase = $user['username'];
-        $userRole = $user['role'];
-    } else {
-        // User not found in database
-        $usernameFromDatabase = '';
-        $userRole = '';
-        echo "Error: User not found in the database.";
+        if ($user) {
+            // User is authenticated
+            $userLoggedIn = true;
+            $usernameFromDatabase = $user['username'];
+            $userRole = $user['role'];
+        } else {
+            // User not found in database
+            echo "Error: User not found in the database.";
+        }
     }
 } catch (PDOException $e) {
     // Error occurred while fetching user information
-    $usernameFromDatabase = '';
-    $userRole = '';
     echo "Error: " . $e->getMessage();
 }
 ?>
@@ -39,15 +42,16 @@ try {
     <!-- Custom CSS -->
     <style>
         .navbar-nav.flex-column {
-    padding-top: 20px; /* Optional: Adjust the top padding */
-}
+            padding-top: 20px; /* Optional: Adjust the top padding */
+        }
 
-.navbar-nav.flex-column .nav-item {
-    margin-bottom: 10px; /* Optional: Adjust the margin between items */
-}
+        .navbar-nav.flex-column .nav-item {
+            margin-bottom: 10px; /* Optional: Adjust the margin between items */
+        }
     </style>
 </head>
 <body>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="admin.php">Admin Dashboard</a>
@@ -56,7 +60,7 @@ try {
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav">          
                     <li class="nav-item">
                         <a class="nav-link" href="manage_players.php">Manage Players</a>
                     </li>
@@ -71,6 +75,7 @@ try {
                     </li>
             </ul>
             <ul class="navbar-nav ml-auto">
+                <?php if ($userLoggedIn) { ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?php echo htmlspecialchars($usernameFromDatabase); ?>
@@ -81,6 +86,7 @@ try {
                             <a class="dropdown-item" href="logout.php">Log out</a>
                         </div>
                     </li>
+                <?php }?> 
             </ul>
         </div>
     </div>
@@ -97,3 +103,5 @@ try {
 </script>
 </body>
 </html>
+
+

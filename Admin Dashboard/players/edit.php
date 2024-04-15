@@ -132,9 +132,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_comment'])) {
                                 <input type="text" id="team" name="team" class="form-control" value="<?php echo isset($player['team']) ? $player['team'] : '' ?>" required>
                             </div>
                             <div class="form-group">
-    <label for="position">Position:</label>
-    <input type="text" id="position" name="position" class="form-control" value="<?php echo isset($player['position']) ? $player['position'] : '' ?>" readonly>
-</div>
+                                 <label for="position">Position:</label>
+                                 <input type="text" id="position" name="position" class="form-control" value="<?php echo isset($player['position']) ? $player['position'] : '' ?>" readonly>
+                            </div>
                             <div class="form-group">
                                 <label for="skill_rating">Skill Rating:</label>
                                 <input type="text" id="skill_rating" name="skill_rating" class="form-control" value="<?php echo isset($player['skill_rating']) ? $player['skill_rating'] : '' ?>" required>

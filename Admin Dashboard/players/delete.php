@@ -56,7 +56,7 @@ if (isset($_GET['player_id'])) {
             $statement->bindValue(':player_id', $player_id);
 
             if ($statement->execute()) {
-                header('Location: admin.php');
+                header('Location: manage_players.php');
                 exit;
             } else {
                 echo "Error: Unable to delete the player record.";
@@ -70,36 +70,42 @@ if (isset($_GET['player_id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
     <title>Edit Elite Roster Table</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <?php include('nav_admin.php'); ?>
 <body>
-    <div id='main-content'>
-        <div id='header'>
-            <h2><a href='players.php'> Delete player</a></h2>
+    <div class="container">
+        <div class="card mt-4">
+            <div class="card-header">
+            <h2 class="text-center"><a href='players.php'>Delete Player</a></h2>
+            </div>
+            <div class="card-body">
+                <form action="delete.php?player_id=<?php echo $player_id ?>" method="post"> 
+                    <div class="form-group">
+                        <label for="player_name">Player Name:</label>
+                        <input type="text" id="player_name" name="player_name" value="<?php echo isset($player['player_name']) ? $player['player_name'] : '' ?>" required readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="team">Team:</label>
+                        <input type="text" id="team" name="team" value="<?php echo isset($player['team']) ? $player['team'] : '' ?>" required readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position:</label>
+                        <input type="text" id="position" name="position" value="<?php echo isset($player['position']) ? $player['position'] : '' ?>" required readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="skill_rating">Skill Rating:</label>
+                        <input type="text" id="skill_rating" name="skill_rating" value="<?php echo isset($player['skill_rating']) ? $player['skill_rating'] : '' ?>" required readonly class="form-control">
+                    </div>
+                    <!-- Add delete button -->
+                    <input type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure you want to delete this player?');" class="btn btn-danger">
+                </form>
+            </div>
         </div>
-
-        <form action="delete.php?player_id=<?php echo $player_id ?>" method="post"> 
-            <label for="player_name">Player Name:</label>
-            <input type="text" id="player_name" name="player_name" value="<?php echo isset($player['player_name']) ? $player['player_name'] : '' ?>" required>
-            <br>
-            <label for="team">Team:</label>
-            <input type="text" id="team" name="team" value="<?php echo isset($player['team']) ? $player['team'] : '' ?>" required>
-            <br>
-            <label for="position">Position:</label>
-            <input type="text" id="position" name="position" value="<?php echo isset($player['position']) ? $player['position'] : '' ?>" required>
-            <br>
-            <label for="skill_rating">Skill Rating:</label>
-            <input type="text" id="skill_rating" name="skill_rating" value="<?php echo isset($player['skill_rating']) ? $player['skill_rating'] : '' ?>" required>
-            <br>
-            <!-- Add delete button -->
-            <input type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure you want to delete this player?');">
-        </form>
     </div>
-</body>
-</html>
-<?php
+    <?php
     } else {
         // Handle the case where the player with the specified ID does not exist
         echo "Player not found.";
@@ -109,5 +115,8 @@ if (isset($_GET['player_id'])) {
     echo "Player ID not specified.";
 }
 ?>
+</body>
+</html>
 
-        
+
+

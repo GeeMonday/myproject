@@ -1,10 +1,12 @@
 <?php
 session_start(); // Start the session
 
-// Check if user is logged in
-if(isset($_SESSION['id'])) {
+// Check if user is logged in and the message hasn't been displayed yet
+if(isset($_SESSION['id']) && !isset($_SESSION['login_message_displayed'])) {
     echo "Login successful!";
+    $_SESSION['login_message_displayed'] = true; // Set flag to indicate the message has been displayed
 } 
+
 
 // Check if user is created successfully
 if(isset($_SESSION['user_created'])) {

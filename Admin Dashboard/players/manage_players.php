@@ -39,10 +39,10 @@ $players = $statement->fetchAll(PDO::FETCH_ASSOC);
     <?php include('nav_admin.php'); ?>
     <div class="container mt-5">
             <div id="header">
-                <h2>Manage  Players</h2>
+                <h2>Manage Player Data</h2>
             </div>
             <!-- Button to create a new player -->
-            <div class="mt-4 mb-4">
+            <div class="mt-6 mb-6">
                 <form action="create.php" method="get">
                     <button type="submit" class="btn btn-primary btn-lg btn-block"><strong>Create Player</strong></button>
                 </form>
