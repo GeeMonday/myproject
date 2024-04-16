@@ -1,4 +1,5 @@
 <?php
+
 // Database connection
 require('connect.php');
 
@@ -16,15 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
     // Validate and sanitize form data
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
     $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
-    $captcha_input = $_POST['captcha'];
+    $captcha_input = $_POST['captchaInput']; // Change to captchaInput
 
-    // Validate CAPTCHA
-    if (!isset($_SESSION['captcha']) || $_SESSION['captcha'] !== $captcha_input) {
-        // Invalid CAPTCHA
-        echo "Error: Invalid CAPTCHA. Please try again.";
-        exit;
-    }
-
+    
     // Check if form inputs are not empty
     if ($name && $comment) {
         // Submit comment to the database
@@ -84,11 +79,12 @@ function getPlayerById($db, $player_id) {
 
         // If the player is found, display the comment form
         if ($selectedPlayer) {
-            echo "<h3>Intresting facts for {$selectedPlayer['player_name']}</h3>";
+            echo "<h3>Interesting facts for {$selectedPlayer['player_name']}</h3>";
         }
     }
     ?>
-    <form action="comment.php" method="post">
+    <!-- HTML Form with CAPTCHA -->
+<form id="commentForm" action="comment.php" method="post">
     <div class="form-group">
         <label for="name">Your Name:</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="Name" maxlength="30" required>
@@ -98,35 +94,52 @@ function getPlayerById($db, $player_id) {
         <textarea class="form-control" id="comment" name="comment" placeholder="Enter your comment" maxlength="200" required></textarea>
     </div>
     <!-- Display CAPTCHA image -->
-    <img src="captcha.php" class="img-fluid" alt="CAPTCHA Image"><br>
+    <canvas id="captchaCanvas" width="150" height="50"></canvas>
+    <input type="hidden" id="captcha" name="captcha">
+    <button type="button" id="refreshCaptcha" class="btn btn-secondary">Refresh CAPTCHA</button>
     <div class="form-group">
-        <label for="captcha">Enter CAPTCHA:</label>
-        <input type="text" class="form-control" id="captcha" name="captcha" placeholder="CAPTCHA" maxlength="10" required>
+        <label for="captchaInput">Enter CAPTCHA:</label>
+        <input type="text" class="form-control" id="captchaInput" name="captchaInput" placeholder="Enter CAPTCHA" maxlength="10" required>
     </div>
     <div class="form-group">
         <label for="reenter_captcha">Re-enter CAPTCHA:</label>
         <input type="text" class="form-control" id="reenter_captcha" name="reenter_captcha" placeholder="Re-enter CAPTCHA" maxlength="10" required>
     </div>
-    <button type="submit" class="btn btn-primary" name="submit_comment" onclick="return validateCaptcha()">Submit Comment</button>
+    <button type="submit" class="btn btn-primary" name="submit_comment">Submit Comment</button>
 </form>
-
 </div>
 <!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- JavaScript to Generate CAPTCHA Image and Refresh -->
 <script>
-function validateCaptcha() {
-    var captcha = document.getElementById("captcha").value;
-    var reenterCaptcha = document.getElementById("reenter_captcha").value;
+document.addEventListener('DOMContentLoaded', function() {
+    refreshCaptcha();
 
-    if (captcha !== reenterCaptcha) {
-        alert("CAPTCHA does not match. Please re-enter the CAPTCHA.");
-        return false;
+    // Add event listener for refreshing CAPTCHA
+    document.getElementById('refreshCaptcha').addEventListener('click', function() {
+        refreshCaptcha();
+    });
+
+    // Function to generate and display CAPTCHA
+    function refreshCaptcha() {
+        var captchaCanvas = document.getElementById('captchaCanvas');
+        var ctx = captchaCanvas.getContext('2d');
+        var captcha = generateCaptcha();
+        document.getElementById('captcha').value = captcha; // Set CAPTCHA value in hidden input
+
+        // Clear canvas and draw new CAPTCHA text
+        ctx.clearRect(0, 0, captchaCanvas.width, captchaCanvas.height);
+        ctx.font = '30px Arial';
+        ctx.fillText(captcha, 10, 35);
     }
 
-    return true;
-}
+    // Function to generate random CAPTCHA value
+    function generateCaptcha() {
+        return Math.random().toString(36).substr(2, 6).toUpperCase(); // Example: "ABCDEF"
+    }
+});
 </script>
 </body>
 </html>

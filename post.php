@@ -1,13 +1,16 @@
 <?php
 
-/*******w******** 
-    
-    Name:George Monday
-    Date:27/01/2024
-    Description:
-
-****************/
 require('connect.php');
+
+// Function to get comments for a player by player ID
+function getCommentsByPlayerId($db, $player_id) {
+    $query = "SELECT * FROM comments WHERE player_id = :player_id ORDER BY created_at DESC";
+    $statement = $db->prepare($query);
+    $statement->bindParam(':player_id', $player_id, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 // Function to get a player name by its ID
 function getPlayerById($db, $player_id) {
@@ -50,6 +53,7 @@ if (isset($_GET['player_id'])) {
     // If the player is found, display its details
     if ($selectedPlayer) {
         echo "<div class='nba-roster'>";
+        // Display player details
         // Check if image URLs are provided and not empty
         if (!empty($selectedPlayer['image_url'])) {
             // Split the comma-separated string into an array of image URLs
@@ -69,25 +73,21 @@ if (isset($_GET['player_id'])) {
         echo "<p><strong>Team:</strong> {$selectedPlayer['team']}</p>";
         echo "<p><strong>Position:</strong> {$selectedPlayer['position']}</p>";
         echo "<p><strong>Skill Rating:</strong> {$selectedPlayer['skill_rating']}</p>"; 
-        /*
-        // Retrieve the player description from the comments table
-        $query = "SELECT comment FROM comments WHERE comment_id = :comment_id";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':comment_id', $comment_id);
-        $statement->execute();
-        $comment_result = $statement->fetch(PDO::FETCH_ASSOC);
-
-        // Display the player description
-        if ($comment_result) {
-            echo "<h4>Interesting Facts</h4>";
-            echo "<p>{$comment_result['comment']}</p>";
-        } else {
-            echo "<p>No interesting facts available.</p>";
-        }
-        */
-
+        // Display comments related to the player
+$comments = getCommentsByPlayerId($db, $player_id);
+if ($comments) {
+    echo "<h4>Interesting facts</h4>";
+    // Display comments in reverse chronological order
+    foreach (array_reverse($comments) as $comment) {
+        echo "<div class='comment'>";
+        echo "<p><strong>{$comment['name']}</strong> - {$comment['comment']}</p>";
+        echo "</div>";
+    }
+} else {
+    echo "<p>No interesting facts available.</p>";
+}
         // Adding submit comment link
-        echo "<a href='comment.php?player_id={$player_id}'>add an intresting fact to this player</a>";
+        echo "<a href='comment.php?player_id={$player_id}'>Add an interesting facts to this player</a>";
 
         echo "</div>";
     } else {

@@ -1,11 +1,17 @@
 <?php
 session_start();
 
-// Generate random CAPTCHA value
-$captcha = substr(md5(rand()), 0, 6);
+// Check if a refresh parameter is present
+if (isset($_GET['refresh']) && $_GET['refresh'] === 'true') {
+    // Generate a new CAPTCHA value
+    $captcha = substr(md5(rand()), 0, 6);
 
-// Store CAPTCHA value in session
-$_SESSION['captcha'] = $captcha;
+    // Store the new CAPTCHA value in session
+    $_SESSION['captcha'] = $captcha;
+} else {
+    // Use the existing CAPTCHA value if not refreshing
+    $captcha = isset($_SESSION['captcha']) ? $_SESSION['captcha'] : '';
+}
 
 // Generate CAPTCHA image
 $image = imagecreatetruecolor(100, 30);
@@ -19,5 +25,6 @@ header('Content-Type: image/png');
 // Output image
 imagepng($image);
 imagedestroy($image);
+
 ?>
 
