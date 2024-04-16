@@ -21,10 +21,7 @@ if ($_FILES && isset($_FILES['player_image'])) {
         echo "Possible file upload attack!";
         exit; // Exit script if file upload fails
     }
-} else {
-    echo "No file uploaded!";
-    
-}
+} 
 
 // Proceed with database insertion only if file upload was successful
 if ($_POST && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty($_POST['position']) && !empty($_POST['skill_rating'])) {

@@ -65,7 +65,7 @@ try {
                         <a class="nav-link" href="Admin Dashboard\players\manage_players.php">Manage Players</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="manage_comments.php">Manage Comments</a>
+                        <a class="nav-link" href="Admin Dashboard\comments\moderate_comment.php">Manage Comments</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="manage_users.php">Manage Users</a>
