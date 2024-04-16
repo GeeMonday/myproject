@@ -52,6 +52,9 @@ if ($_FILES && isset($_FILES['player_image'])) {
         imagedestroy($image);
         imagedestroy($resizedImage);
 
+        // Debug: Check if file was uploaded successfully
+    echo "File uploaded to: " . $uploadFile;
+
         echo "File is valid, and was successfully uploaded and resized.";
     } else {
         echo "Possible file upload attack!";
@@ -159,11 +162,13 @@ $statement->bindValue(':player_image', $player_image);
                         <input type="text" class="form-control" id="skill_rating" name="skill_rating" required>
                     </div> 
                     <div class="form-group">
-        <label for="player_image">Player Image:</label>
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="player_image" name="player_image">
-            <label class="custom-file-label" for="player_image">Choose file</label>
-        </div>
+    <label for="player_image">Player Image(optional):</label>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="player_image" name="player_image" onchange="updateFilename(this)">
+        <label class="custom-file-label" for="player_image" id="player_image_label">Choose file</label>
+    </div>
+</div>
+
     </div>
                     <div class="form-group">
                  <label for="player_description"><h4>Interesting Facts</h4></label>
@@ -180,5 +185,14 @@ $statement->bindValue(':player_image', $player_image);
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+    function updateFilename(input) {
+        // Get the file name
+        var filename = input.files[0].name;
+        // Update the label text
+        document.getElementById('player_image_label').innerHTML = filename;
+    }
+</script>
+
 </body>
 </html>

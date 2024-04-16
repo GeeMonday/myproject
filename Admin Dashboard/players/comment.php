@@ -89,26 +89,44 @@ function getPlayerById($db, $player_id) {
     }
     ?>
     <form action="comment.php" method="post">
-        <div class="form-group">
-            <label for="name">Your Name:</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Name" maxlength="30" required>
-        </div>
-        <div class="form-group">
-            <label for="comment">Your Comment:</label>
-            <textarea class="form-control" id="comment" name="comment" placeholder="Enter your comment" maxlength="200" required></textarea>
-        </div>
-        <!-- Display CAPTCHA image -->
-        <img src="captcha.php" class="img-fluid" alt="CAPTCHA Image"><br>
-        <div class="form-group">
-            <label for="captcha">Enter CAPTCHA:</label>
-            <input type="text" class="form-control" id="captcha" name="captcha" placeholder="CAPTCHA" maxlength="10" required>
-        </div>
-        <button type="submit" class="btn btn-primary" name="submit_comment">Submit Comment</button>
-    </form>
+    <div class="form-group">
+        <label for="name">Your Name:</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Name" maxlength="30" required>
+    </div>
+    <div class="form-group">
+        <label for="comment">Your Comment:</label>
+        <textarea class="form-control" id="comment" name="comment" placeholder="Enter your comment" maxlength="200" required></textarea>
+    </div>
+    <!-- Display CAPTCHA image -->
+    <img src="captcha.php" class="img-fluid" alt="CAPTCHA Image"><br>
+    <div class="form-group">
+        <label for="captcha">Enter CAPTCHA:</label>
+        <input type="text" class="form-control" id="captcha" name="captcha" placeholder="CAPTCHA" maxlength="10" required>
+    </div>
+    <div class="form-group">
+        <label for="reenter_captcha">Re-enter CAPTCHA:</label>
+        <input type="text" class="form-control" id="reenter_captcha" name="reenter_captcha" placeholder="Re-enter CAPTCHA" maxlength="10" required>
+    </div>
+    <button type="submit" class="btn btn-primary" name="submit_comment" onclick="return validateCaptcha()">Submit Comment</button>
+</form>
+
 </div>
 <!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+function validateCaptcha() {
+    var captcha = document.getElementById("captcha").value;
+    var reenterCaptcha = document.getElementById("reenter_captcha").value;
+
+    if (captcha !== reenterCaptcha) {
+        alert("CAPTCHA does not match. Please re-enter the CAPTCHA.");
+        return false;
+    }
+
+    return true;
+}
+</script>
 </body>
 </html>

@@ -51,24 +51,18 @@ if (isset($_GET['player_id'])) {
     if ($selectedPlayer) {
         echo "<div class='nba-roster'>";
         // Check if image URLs are provided and not empty
-        if (!empty($selectedPlayer['image_url'])) {
-            // Split the comma-separated string into an array of image URLs
-            $imageArray = explode(',', $selectedPlayer['image_url']);
-
-            // Loop through each image filename
-            foreach ($imageArray as $image) {
-                // Replace backslashes with forward slashes in the image path
-                $image = str_replace('\\', '/', trim($image));
-                echo "<img class='player-image' src='{$image}' alt='{$selectedPlayer['player_name']}' />";
-            }
-        } else {
-            // If no image URLs are provided, display a default image or message
-            echo "<p>No images available</p>";
-        }
+        
         echo "<h2>{$selectedPlayer['player_name']}</h2>";
         echo "<p><strong>Team:</strong> {$selectedPlayer['team']}</p>";
         echo "<p><strong>Position:</strong> {$selectedPlayer['position']}</p>";
         echo "<p><strong>Skill Rating:</strong> {$selectedPlayer['skill_rating']}</p>"; 
+
+         // Display the player image if available
+         if (!empty($selectedPlayer['player_image'])) {
+            echo "<img src='{$selectedPlayer['player_image']}' alt='{$selectedPlayer['player_name']}'>";
+        } else {
+            echo "<p>No image available</p>";
+        }
         /*
         // Retrieve the player description from the comments table
         $query = "SELECT comment FROM comments WHERE comment_id = :comment_id";
