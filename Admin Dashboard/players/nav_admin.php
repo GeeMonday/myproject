@@ -68,7 +68,7 @@ try {
                         <a class="nav-link" href="comments\moderate_comment.php">Manage Comments</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="manage_users.php">Manage Users</a>
+                        <a class="nav-link" href="users\manage_users.php">Manage Users</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="create_category.php">Manage Categories</a>
