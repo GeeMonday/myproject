@@ -1,6 +1,5 @@
 <?php
-require('connect.php'); // Include the file to establish the database connection
-
+require('connect.php'); 
 // Start the session
 session_start();
 

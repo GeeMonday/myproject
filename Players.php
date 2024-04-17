@@ -1,7 +1,7 @@
 <?php
-session_start(); // Start the session
-require_once('connect.php'); // Use require_once to include connect.php only once
 
+require_once('connect.php'); // Use require_once to include connect.php only once
+session_start(); // Start the session
 // Check if user is logged in
 $userLoggedIn = isset($_SESSION['id']);
 

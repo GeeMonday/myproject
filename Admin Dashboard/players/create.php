@@ -1,67 +1,82 @@
 <?php
+session_start(); // Start the session
 require('connect.php');
 require('authenticate.php');
 
-// Check if a file was uploaded
-if ($_FILES && isset($_FILES['player_image'])) {
-    $allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-    $fileType = $_FILES['player_image']['type'];
+function uploadPlayerImage() {
+    if ($_FILES && isset($_FILES['player_image'])) {
+        $allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+        $fileType = $_FILES['player_image']['type'];
 
-    if (!in_array($fileType, $allowedTypes)) {
-        echo "Error: Only PNG and JPEG/JPG files are allowed.";
-        exit;
-    }
+        if (!in_array($fileType, $allowedTypes)) {
+            echo "Error: Only PNG and JPEG/JPG files are allowed.";
+            exit;
+        }
 
-    $uploadDir = 'Admin Dashboard\players\Images';
-    $uploadFile = $uploadDir . basename($_FILES['player_image']['name']);
+        $uploadDir = 'Admin Dashboard/players/player_image/';
+        $filename = uniqid() . '_' . basename($_FILES['player_image']['name']);
+        $uploadFile = $uploadDir . $filename;
 
-    if (move_uploaded_file($_FILES['player_image']['tmp_name'], $uploadFile)) {
-        echo "File uploaded to: " . $uploadFile;
+        if (move_uploaded_file($_FILES['player_image']['tmp_name'], $uploadFile)) {
+            // Return the relative URL of the uploaded image
+            return $uploadFile;
+        } else {
+            echo "Possible file upload attack!";
+            exit; // Exit script if file upload fails
+        }
     } else {
-        echo "Possible file upload attack!";
-        exit; // Exit script if file upload fails
+        return null; // Return null if no file was uploaded
     }
-} 
+}
 
-// Proceed with database insertion only if file upload was successful
+
+// Check if form is submitted and perform database insertion
 if ($_POST && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty($_POST['position']) && !empty($_POST['skill_rating'])) {
+    // Get form data
     $player_name = filter_input(INPUT_POST, 'player_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $team = filter_input(INPUT_POST, 'team', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $skill_rating = filter_input(INPUT_POST, 'skill_rating', FILTER_SANITIZE_NUMBER_INT);
-    $player_image = isset($uploadFile) ? $uploadFile : null; // Use the uploaded file path if available
+    
+    // Upload player image and get its URL
+    $player_image = uploadPlayerImage();
 
+    // Prepare and execute SQL query
     $query = "INSERT INTO nbaeliteroster (player_name, team, position, skill_rating, player_image) VALUES (:player_name, :team, :position, :skill_rating, :player_image)";
     $statement = $db->prepare($query);
-    $statement->bindValue(':player_name', $player_name);
-    $statement->bindValue(':team', $team);
-    $statement->bindValue(':position', $position);
-    $statement->bindValue(':skill_rating', $skill_rating);
-    $statement->bindValue(':player_image', $player_image);
+    $statement->bindParam(':player_name', $player_name, PDO::PARAM_STR);
+    $statement->bindParam(':team', $team, PDO::PARAM_STR);
+    $statement->bindParam(':position', $position, PDO::PARAM_STR);
+    $statement->bindParam(':skill_rating', $skill_rating, PDO::PARAM_INT);
+    $statement->bindParam(':player_image', $player_image, PDO::PARAM_STR);
+   
 
     if ($statement->execute()) {
         $successMessage = "Player created successfully!";
-        
+    }
         // Check if the user is logged in
         if ($userLoggedIn) {
             // Get the user's ID from the session
-            $user = $_SESSION['id'];
+            $id = $_SESSION['id'];
 
-            // Save the comment in the users table
-            $player_description = filter_input(INPUT_POST, 'player_description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            // Update the player_description in the users table
             $query = "UPDATE users SET player_description = :player_description WHERE id = :id";
             $statement = $db->prepare($query);
-            $statement->bindValue(':player_description', $player_description);
-            $statement->bindValue(':id', $id);
-            $statement->execute();
+            $statement->bindValue(':player_description', $player_description, PDO::PARAM_STR);
+            $statement->bindValue(':id', $id, PDO::PARAM_INT);
             
-            $successMessage .= " Comment added for logged in user!";
+            if ($statement->execute()) {
+                // Success message or further action
+            } else {
+                echo "Failed to update player description for user.";
+            }
         }
     } else {
         echo "Failed to create player.";
     }
-}
+
 ?>
+
 
 
 <!DOCTYPE html>

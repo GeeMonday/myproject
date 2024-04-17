@@ -17,8 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
     // Validate and sanitize form data
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
     $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
-    $captcha_input = $_POST['captchaInput']; // Change to captchaInput
-
+    $captcha_input = $_POST['captchaInput']; 
     
     // Check if form inputs are not empty
     if ($name && $comment) {
@@ -54,7 +53,6 @@ function getPlayerById($db, $player_id) {
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Custom CSS to reduce container size */
         .custom-container {
             max-width: 400px;
             margin-top: 100px;
