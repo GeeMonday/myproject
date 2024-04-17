@@ -1,5 +1,4 @@
 <?php
-session_start(); // Start the session
 require('connect.php');
 require('authenticate.php');
 
@@ -139,10 +138,6 @@ if ($_POST && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty(
                             <input type="file" class="custom-file-input" id="player_image" name="player_image" onchange="updateFilename(this)">
                             <label class="custom-file-label" for="player_image" id="player_image_label">Choose file</label>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="player_description"><h4>Interesting Facts</h4></label>
-                        <textarea class="form-control" id="player_description" name="player_description" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

@@ -139,11 +139,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_comment'])) {
                                 <label for="skill_rating">Skill Rating:</label>
                                 <input type="text" id="skill_rating" name="skill_rating" class="form-control" value="<?php echo isset($player['skill_rating']) ? $player['skill_rating'] : '' ?>" required>
                             </div>
-                            <div class="form-group">
-                                <label for="player_description"><h4>Interesting Facts</h4></label>
-                                <!-- Use a textarea for interesting facts -->
-                                <textarea class="form-control" id="player_description" name="player_description" rows="4"></textarea>
-                            </div>
                             <button type="submit" name="update" class="btn btn-primary btn-block">Update</button>
                         </form>
                     </div>

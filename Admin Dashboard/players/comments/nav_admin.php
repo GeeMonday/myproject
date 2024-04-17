@@ -3,7 +3,6 @@ session_start(); // Start the session
 // Initialize variables
 $usernameFromDatabase = '';
 $userRole = '';
-$userLoggedIn = false; // Initialize $userLoggedIn
 
 try {
     // Check if the user is logged in
@@ -65,7 +64,7 @@ try {
                         <a class="nav-link" href="manage_players.php">Manage Players</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="comments\moderate_comment.php">Manage Comments</a>
+                        <a class="nav-link" href="moderate_comment.php">Manage Comments</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="manage_users.php">Manage Users</a>

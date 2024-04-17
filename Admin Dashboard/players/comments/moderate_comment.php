@@ -1,5 +1,4 @@
 <?php
-session_start(); // Start the session
 // Include database connection
 require('connect.php');
 
@@ -37,6 +36,16 @@ function disemvowelComment($db, $comment_id) {
     return $updateStatement->execute();
 }
 
+// Define variables to hold success and error messages
+$successMessage = '';
+$errorMessage = '';
+
+// Fetch comments from the database with the "approved" status
+$query = "SELECT * FROM comments WHERE moderation_status = 'approved'";
+$statement = $db->query($query);
+$comments = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
 // Handle comment moderation actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isAdminUser()) {
     // Check if a moderation action is specified
@@ -47,10 +56,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isAdminUser()) {
         // Perform the specified moderation action
         switch ($action) {
             case 'hide':
-                hideComment($db, $comment_id);
+                if (hideComment($db, $comment_id)) {
+                    $successMessage = "Comment has been successfully hidden.";
+                } else {
+                    $errorMessage = "Failed to hide the comment.";
+                }
                 break;
             case 'disemvowel':
-                disemvowelComment($db, $comment_id);
+                if (disemvowelComment($db, $comment_id)) {
+                    $successMessage = "Comment has been successfully disemvoweled.";
+                } else {
+                    $errorMessage = "Failed to disemvowel the comment.";
+                }
                 break;
             default:
                 // Invalid action
@@ -76,13 +93,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isAdminUser()) {
     <div class="container">
         <h1 class="mt-5">Comment Moderation</h1>
 
+        <?php if ($successMessage): ?>
+            <div class="alert alert-success mt-3" role="alert">
+                <?= $successMessage ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($errorMessage): ?>
+            <div class="alert alert-danger mt-3" role="alert">
+                <?= $errorMessage ?>
+            </div>
+        <?php endif; ?>
+
         <?php foreach ($comments as $comment): ?>
             <div class="card mt-3">
                 <div class="card-body">
                     <p class="card-text"><?= $comment['comment'] ?></p>
                     
-                    <?php if (isAdminUser()): ?>
-                        <form action="" method="post">
+                        <form method="post">
                             <input type="hidden" name="comment_id" value="<?= $comment['comment_id'] ?>">
                             <select class="form-control" name="action">
                                 <option value="hide">Hide</option>
@@ -90,8 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isAdminUser()) {
                             </select>
                             <button type="submit" class="btn btn-primary mt-2">Submit</button>
                         </form>
-                    <?php endif; ?>
-                    
                 </div>
             </div>
         <?php endforeach; ?>
@@ -103,4 +129,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isAdminUser()) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
