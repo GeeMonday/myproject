@@ -56,10 +56,10 @@ $players = $statement->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <?php include('nav_admin.php'); ?>
+    <?php include('nav.php'); ?>
     <div class="container mt-5">
             <div id="header">
-                <h2>Page Administration</h2>
+                <h2>Pages Created by Admin Users</h2>
             </div>
             <?php if ($players) : ?>
                 <!-- Display the data as a list -->

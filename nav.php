@@ -104,7 +104,7 @@ if (isset($_SESSION['id'])) {
     </li>
 <?php } ?>
 <li class="nav-item">
-            <a class="nav-link" href="admin.php">Pages</a>
+            <a class="nav-link" href="admins.php">Pages</a>
         </li>
 <li class="nav-item">
     <a class="nav-link" href="about_us.php">About us</a>
