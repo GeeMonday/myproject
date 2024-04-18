@@ -2,32 +2,84 @@
 require('connect.php');
 require('authenticate.php');
 
-function uploadPlayerImage() {
-    if ($_FILES && isset($_FILES['player_image'])) {
-        $allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-        $fileType = $_FILES['player_image']['type'];
+// Function to check if uploaded file is an image
+function isImage($file) {
+    $allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    $fileType = mime_content_type($file);
+    return in_array($fileType, $allowedTypes);
+}
 
-        if (!in_array($fileType, $allowedTypes)) {
-            echo "Error: Only PNG and JPEG/JPG files are allowed.";
-            exit;
-        }
+// Function to resize uploaded image
+function resizeImage($sourceFile, $targetFile, $maxWidth = 300, $maxHeight = 300, $quality = 90) {
+    list($origWidth, $origHeight, $type) = getimagesize($sourceFile);
 
-        $uploadDir = 'Admin Dashboard/players/player_image/';
-        $filename = uniqid() . '_' . basename($_FILES['player_image']['name']);
-        $uploadFile = $uploadDir . $filename;
-
-        if (move_uploaded_file($_FILES['player_image']['tmp_name'], $uploadFile)) {
-            // Return the relative URL of the uploaded image
-            return $uploadFile;
-        } else {
-            echo "Possible file upload attack!";
-            exit; // Exit script if file upload fails
-        }
+    // Calculate new dimensions while preserving aspect ratio
+    $aspectRatio = $origWidth / $origHeight;
+    if ($origWidth > $origHeight) {
+        $width = $maxWidth;
+        $height = $maxWidth / $aspectRatio;
     } else {
-        return null; // Return null if no file was uploaded
+        $height = $maxHeight;
+        $width = $maxHeight * $aspectRatio;
+    }
+
+    // Create a new image resource
+    $newImage = imagecreatetruecolor($width, $height);
+
+    // Load the original image
+    if ($type === IMAGETYPE_JPEG) {
+        $source = imagecreatefromjpeg($sourceFile);
+    } elseif ($type === IMAGETYPE_PNG) {
+        $source = imagecreatefrompng($sourceFile);
+    } else {
+        return false; // Unsupported image type
+    }
+
+    // Resize the image
+    imagecopyresampled($newImage, $source, 0, 0, 0, 0, $width, $height, $origWidth, $origHeight);
+
+    // Save the resized image
+    imagejpeg($newImage, $targetFile, $quality);
+
+    // Free up memory
+    imagedestroy($source);
+    imagedestroy($newImage);
+
+    return true;
+}
+
+// Function to handle image upload
+function uploadImage($file) {
+    $uploadDir = 'Admin Dashboard/players/player_image/';
+    $filename = uniqid() . '_' . basename($file['name']);
+    $uploadFile = $uploadDir . $filename;
+
+    if (isImage($file['tmp_name']) && move_uploaded_file($file['tmp_name'], $uploadFile)) {
+        // Resize uploaded image
+        $resizedFile = 'resized_' . $filename;
+        $resizedFilePath = $uploadDir . $resizedFile;
+        resizeImage($uploadFile, $resizedFilePath);
+        
+        // Return the relative URL of the uploaded image
+        return $resizedFilePath;
+    } else {
+        return false;
     }
 }
 
+// Handle image upload
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['player_image'])) {
+    $imageUrl = uploadImage($_FILES['player_image']);
+    if ($imageUrl) {
+        // Image upload successful, save the URL to database
+        // Perform database insertion here
+        // Example: INSERT INTO nbaeliteroster (player_image) VALUES (:imageUrl)
+        // Replace this with your actual database insertion code
+    } else {
+        // Image upload failed
+        echo "Error uploading image.";
+    }
+}
 
 // Check if form is submitted and perform database insertion
 if ($_POST && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty($_POST['position']) && !empty($_POST['skill_rating'])) {

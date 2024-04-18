@@ -6,10 +6,12 @@ session_start();
 // Check if user is logged in
 $userLoggedIn = isset($_SESSION['id']);
 
-// Retrieve categories from the database
-$categoriesQuery = $db->query("SELECT * FROM positions");
-$categories = $categoriesQuery->fetchAll(PDO::FETCH_ASSOC);
+// Retrieve newly created categories from the database within the last minute
+$newCategoriesQuery = $db->query("SELECT * FROM positions WHERE created_at >= NOW() - INTERVAL 3 MINUTE");
+$newCategories = $newCategoriesQuery->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,11 +49,10 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
-<?php include('nav.php'); ?>
 <div class="container">
     <h2>Categories</h2>
     <div class="row">
-        <?php foreach ($categories as $category): ?>
+        <?php foreach ($newCategories as $category): ?>
             <div class="col-md-4">
                 <div class="category-box">
                     <img src="<?= $category['image_url'] ?>" class="category-image">
@@ -61,6 +62,7 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
     </div>
 </div>
+
 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
