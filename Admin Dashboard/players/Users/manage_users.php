@@ -123,7 +123,7 @@ if(isset($_GET['action'])) {
                                 <td><?= $user['email'] ?></td>
                                 <td>
                                     <a href="edit_user.php?action=edit&id=<?= $user['id'] ?>" class="btn btn-primary">Edit</a>
-                                    <a href="delete.php?action=delete&id=<?= $user['id'] ?>" class="btn btn-danger">Delete</a>
+                                    <a href="delete_user.php?action=delete&id=<?= $user['id'] ?>" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                 <?php

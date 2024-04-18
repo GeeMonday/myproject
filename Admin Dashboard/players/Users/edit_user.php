@@ -12,7 +12,7 @@ function editUser() {
         // Retrieve user data from the database
         $query = "SELECT * FROM users WHERE id = :id";
         $statement = $db->prepare($query);
-        $statement->execute(['id' => $userId]);
+        $statement->execute(['id' => $id]);
         $user = $statement->fetch(PDO::FETCH_ASSOC);
 
         if($user) {
@@ -23,12 +23,10 @@ function editUser() {
                 $query = "UPDATE users SET username = :username, email = :email WHERE id = :id";
                 $statement = $db->prepare($query);
                 $statement->execute(['username' => $username, 'email' => $email, 'id' => $id]);
-
-                echo "User updated successfully.";
             } else {
                 // Display the form to edit a user
                 ?>
-                <form action='manage_users.php' method='post'>
+                <form action='edit_user.php?action=edit&id=<?= $id ?>' method='post'>
                     <div class="form-group">
                         <label for="username">Username:</label>
                         <input type="text" class="form-control" id="username" name="username" value="<?= $user['username'] ?>">
@@ -54,3 +52,10 @@ if(isset($_GET['action']) && $_GET['action'] === 'edit') {
     editUser();
 }
 ?>
+
+<!-- Display message after form submission -->
+<?php if(isset($_POST['username']) && isset($_POST['email'])): ?>
+    <div class="alert alert-success mt-3" role="alert">
+        User updated successfully.
+    </div>
+<?php endif; ?>
