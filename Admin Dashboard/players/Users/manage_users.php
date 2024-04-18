@@ -2,8 +2,85 @@
 // Include necessary files and start session
 include('connect.php'); // assuming this file contains database connection settings
 session_start();
-?>
 
+// Function to handle editing a user
+function editUser() {
+    global $db;
+    if(isset($_GET['id'])) {
+        $userId = $_GET['id'];
+
+        // Retrieve user data from the database
+        $query = "SELECT * FROM users WHERE id = :id";
+        $statement = $db->prepare($query);
+        $statement->execute(['id' => $userId]);
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if($user) {
+            if($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Update user information in the database
+                $username = $_POST['username'];
+                $email = $_POST['email'];
+                $query = "UPDATE users SET username = :username, email = :email WHERE id = :id";
+                $statement = $db->prepare($query);
+                $statement->execute(['username' => $username, 'email' => $email, 'id' => $userId]);
+
+                echo "User updated successfully.";
+            } else {
+                // Display the form to edit a user
+                ?>
+                <form method='post'>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username" name="username" value="<?= $user['username'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= $user['email'] ?>">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update User</button>
+                </form>
+                <?php
+            }
+        } else {
+            echo "User not found.";
+        }
+    } else {
+        echo "User ID not provided.";
+    }
+}
+
+// Function to handle deleting a user
+function deleteUser() {
+    global $db;
+    if(isset($_GET['id'])) {
+        $userId = $_GET['id'];
+
+        // Delete the user from the database
+        $query = "DELETE FROM users WHERE id = :id";
+        $statement = $db->prepare($query);
+        $statement->execute(['id' => $userId]);
+
+        echo "User deleted successfully.";
+    } else {
+        echo "User ID not provided.";
+    }
+}
+
+// Handle actions
+if(isset($_GET['action'])) {
+    switch ($_GET['action']) {
+        case 'edit':
+            editUser();
+            break;
+        case 'delete':
+            deleteUser();
+            break;
+        default:
+            echo "Invalid action.";
+            break;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,10 +92,8 @@ session_start();
 </head>
 <body>
 <?php include('nav_admin.php'); ?>
-<div class="container mt-5">
-    <h2 class="mb-4">Page Administration</h2>
     
-    <h3>All Registered Users:</h3>
+    <h3>Users Table</h3>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -47,8 +122,8 @@ session_start();
                                 <td><?= $user['username'] ?></td>
                                 <td><?= $user['email'] ?></td>
                                 <td>
-                                    <a href="admin.php?action=edit&id=<?= $user['id'] ?>" class="btn btn-primary">Edit</a>
-                                    <a href="admin.php?action=delete&id=<?= $user['id'] ?>" class="btn btn-danger">Delete</a>
+                                    <a href="edit.php?action=edit&id=<?= $user['id'] ?>" class="btn btn-primary">Edit</a>
+                                    <a href="delete.php?action=delete&id=<?= $user['id'] ?>" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                 <?php
