@@ -53,9 +53,13 @@ if(isset($_GET['action']) && $_GET['action'] === 'edit') {
 }
 ?>
 
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 <!-- Display message after form submission -->
 <?php if(isset($_POST['username']) && isset($_POST['email'])): ?>
     <div class="alert alert-success mt-3" role="alert">
         User updated successfully.
     </div>
 <?php endif; ?>
+

@@ -99,10 +99,6 @@ function getPlayerById($db, $player_id) {
         <label for="captchaInput">Enter CAPTCHA:</label>
         <input type="text" class="form-control" id="captchaInput" name="captchaInput" placeholder="Enter CAPTCHA" maxlength="10" required>
     </div>
-    <div class="form-group">
-        <label for="reenter_captcha">Re-enter CAPTCHA:</label>
-        <input type="text" class="form-control" id="reenter_captcha" name="reenter_captcha" placeholder="Re-enter CAPTCHA" maxlength="10" required>
-    </div>
     <button type="submit" class="btn btn-primary" name="submit_comment">Submit Comment</button>
 </form>
 </div>

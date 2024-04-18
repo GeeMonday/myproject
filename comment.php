@@ -4,6 +4,11 @@ require('connect.php');
 
 // Function to submit a comment
 function submitComment($db, $name, $comment, $player_id) {
+    // If name is empty, set it to "Anonymous"
+    if (empty($name)) {
+        $name = "Anonymous";
+    }
+
     $query = "INSERT INTO comments (name, comment, player_id) VALUES (:name, :comment, :player_id)";
     $statement = $db->prepare($query);
     $statement->bindParam(':name', $name, PDO::PARAM_STR);
@@ -18,9 +23,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
     $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
     $player_id = $_POST['player_id']; // Get player_id from the form
-    
+    $enteredCaptcha = strtoupper($_POST['captchaInput']); // Convert entered CAPTCHA to uppercase
+
+    // Validate CAPTCHA
+    if ($enteredCaptcha !== $_POST['captcha']) {
+        // Show error message if CAPTCHA is incorrect
+        echo "Error: Incorrect CAPTCHA.";
+        exit; // Stop script execution
+    }
+
     // Check if form inputs are not empty
-    if ($name && $comment && $player_id) {
+    if ($comment && $player_id) {
         // Submit comment to the database
         if (submitComment($db, $name, $comment, $player_id)) {
             // Show success message
@@ -83,30 +96,27 @@ function getPlayerById($db, $player_id) {
     }
     ?>
     <!-- HTML Form with CAPTCHA -->
-<form id="commentForm" action="comment.php" method="post">
-    <input type="hidden" name="player_id" value="<?php echo isset($_GET['player_id']) ? $_GET['player_id'] : ''; ?>">
-    <div class="form-group">
-        <label for="name">Your Name:</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Name" maxlength="30" required>
-    </div>
-    <div class="form-group">
-        <label for="comment">Your Interesting facts:</label>
-        <textarea class="form-control" id="comment" name="comment" placeholder="Enter your comment" maxlength="200" required></textarea>
-    </div>
-    <!-- Display CAPTCHA image -->
-    <canvas id="captchaCanvas" width="150" height="50"></canvas>
-    <input type="hidden" id="captcha" name="captcha">
-    <button type="button" id="refreshCaptcha" class="btn btn-secondary">Refresh CAPTCHA</button>
-    <div class="form-group">
-        <label for="captchaInput">Enter CAPTCHA:</label>
-        <input type="text" class="form-control" id="captchaInput" name="captchaInput" placeholder="Enter CAPTCHA" maxlength="10" required>
-    </div>
-    <div class="form-group">
-        <label for="reenter_captcha">Re-enter CAPTCHA:</label>
-        <input type="text" class="form-control" id="reenter_captcha" name="reenter_captcha" placeholder="Re-enter CAPTCHA" maxlength="10" required>
-    </div>
-    <button type="submit" class="btn btn-primary" name="submit_comment">Submit Comment</button>
-</form>
+    <form id="commentForm" action="comment.php" method="post">
+        <input type="hidden" name="player_id" value="<?php echo isset($_GET['player_id']) ? $_GET['player_id'] : ''; ?>">
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name" maxlength="30">
+        </div>
+        <div class="form-group">
+            <label for="comment">Your Interesting facts:</label>
+            <textarea class="form-control" id="comment" name="comment" placeholder="Enter your comment" maxlength="200" required></textarea>
+        </div>
+        <!-- Display CAPTCHA image -->
+        <canvas id="captchaCanvas" width="150" height="50"></canvas>
+        <input type="hidden" id="captcha" name="captcha">
+        <button type="button" id="refreshCaptcha" class="btn btn-secondary">Refresh CAPTCHA</button>
+        <div class="form-group">
+            <label for="captchaInput">Enter CAPTCHA:</label>
+            <input type="text" class="form-control" id="captchaInput" name="captchaInput" placeholder="Enter CAPTCHA" maxlength="10" required>
+            <div id="captchaError" class="text-danger" style="display: none;">Incorrect CAPTCHA. Please try again.</div>
+        </div>
+        <button type="submit" class="btn btn-primary" name="submit_comment" onclick="return validateCaptcha()">Submit Comment</button>
+    </form>
 </div>
 <!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -140,6 +150,19 @@ document.addEventListener('DOMContentLoaded', function() {
         return Math.random().toString(36).substr(2, 6).toUpperCase(); // Example: "ABCDEF"
     }
 });
+
+// Function to validate CAPTCHA before form submission
+function validateCaptcha() {
+    var enteredCaptcha = document.getElementById('captchaInput').value.toUpperCase();
+    var captcha = document.getElementById('captcha').value;
+
+    if (enteredCaptcha !== captcha) {
+        document.getElementById('captchaError').style.display = 'block';
+        return false; // Prevent form submission
+    } else {
+        return true; // Allow form submission
+    }
+}
 </script>
 </body>
 </html>

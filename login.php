@@ -81,10 +81,6 @@ if ($_POST && !empty($_POST['email']) && !empty($_POST['password'])) {
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-            </div>
             <p> don't have an account, <a href= "create_user.php">Sign up here!</a></p>
             <button type="submit" class="btn btn-login">Login</button>
         </form>

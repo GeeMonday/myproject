@@ -60,13 +60,6 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
     </div>
-    <!--
-    Button to create a new category
-    <div class="button-container">
-    Button to create a new category
-    <a href="create_category.php" class="btn btn-primary">Create New Category</a>
-</div>
-    -->
 </div>
 
 <!-- Bootstrap JS and dependencies -->
