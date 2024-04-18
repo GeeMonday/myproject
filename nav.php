@@ -69,7 +69,7 @@ if (isset($_SESSION['id'])) {
             <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="category.php">Category</a>
+            <a class="nav-link" href="categoryy.php">Category</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="players.php">Players</a>

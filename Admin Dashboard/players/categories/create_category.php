@@ -63,7 +63,7 @@ if ($_POST && !empty($_POST['category_name'])) {
             resizeImage($tmpName, $filePath);
 
             // Build the parameterized SQL query and bind to the above sanitized values
-            $query = "INSERT INTO categories (category_name, category_iamge) VALUES (:category_name, :category_image)";
+            $query = "INSERT INTO positions (positions_name, image_url) VALUES (:category_name, :category_image)";
             $statement = $db->prepare($query);
 
             // Bind values to the parameters
@@ -73,8 +73,9 @@ if ($_POST && !empty($_POST['category_name'])) {
             // Execute the INSERT.
             // execute() will check for possible SQL injection and remove if necessary
             if ($statement->execute()) {
-                // Set the success message
-                $message = "Category created successfully!";
+                // Redirect to category.php after successful insertion
+                header("Location: categoryy.php");
+                exit();
             } else {
                 // Handle the case where the insertion fails
                 $message = "Error creating category.";
