@@ -28,7 +28,7 @@ $categories = $statement->fetchAll(PDO::FETCH_ASSOC);
             <?php
             // Iterate through the categories and populate dropdown options
             foreach($categories as $category) {
-                echo "<option value='" . $category['id'] . "'>" . $category['name'] . "</option>";
+                echo "<option value='" . $category['category_id'] . "'>" . $category['category_name'] . "</option>";
             }
             ?>
         </select>
