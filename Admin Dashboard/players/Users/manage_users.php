@@ -122,7 +122,7 @@ if(isset($_GET['action'])) {
                                 <td><?= $user['username'] ?></td>
                                 <td><?= $user['email'] ?></td>
                                 <td>
-                                    <a href="edit.php?action=edit&id=<?= $user['id'] ?>" class="btn btn-primary">Edit</a>
+                                    <a href="edit_user.php?action=edit&id=<?= $user['id'] ?>" class="btn btn-primary">Edit</a>
                                     <a href="delete.php?action=delete&id=<?= $user['id'] ?>" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>

@@ -7,7 +7,7 @@ session_start();
 function editUser() {
     global $db;
     if(isset($_GET['id'])) {
-        $userId = $_GET['id'];
+        $id = $_GET['id'];
 
         // Retrieve user data from the database
         $query = "SELECT * FROM users WHERE id = :id";
@@ -22,13 +22,13 @@ function editUser() {
                 $email = $_POST['email'];
                 $query = "UPDATE users SET username = :username, email = :email WHERE id = :id";
                 $statement = $db->prepare($query);
-                $statement->execute(['username' => $username, 'email' => $email, 'id' => $userId]);
+                $statement->execute(['username' => $username, 'email' => $email, 'id' => $id]);
 
                 echo "User updated successfully.";
             } else {
                 // Display the form to edit a user
                 ?>
-                <form method='post'>
+                <form action='manage_users.php' method='post'>
                     <div class="form-group">
                         <label for="username">Username:</label>
                         <input type="text" class="form-control" id="username" name="username" value="<?= $user['username'] ?>">
