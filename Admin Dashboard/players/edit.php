@@ -10,8 +10,9 @@
 
 require('connect.php'); 
 require ('authenticate.php');
+// ssanitze and validate player_id
 function getPlayerById($db, $player_id) {
-    $query = "SELECT * FROM nbaeliteroster WHERE player_id = :player_id"; // Updated to use 'player_id'
+    $query = "SELECT * FROM nbaeliteroster WHERE player_id = :player_id"; 
     $statement = $db->prepare($query);
     $statement->bindParam(':player_id', $player_id, PDO::PARAM_INT);
     $statement->execute();
@@ -35,7 +36,7 @@ if (isset($_GET['player_id'])) {
             $position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $skill_rating = filter_input(INPUT_POST, 'skill_rating', FILTER_SANITIZE_NUMBER_INT);
 
-            // Update the player data in the database
+            // Update the player data in the database and bind parameters
             $query = "UPDATE nbaeliteroster SET player_name = :player_name, team = :team, position = :position, skill_rating = :skill_rating WHERE player_id = :player_id";
             $statement = $db->prepare($query);
             $statement->bindValue(':player_id', $player_id);

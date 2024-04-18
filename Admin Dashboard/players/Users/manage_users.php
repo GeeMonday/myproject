@@ -1,7 +1,6 @@
 <?php
 // Include necessary files and start session
 include('connect.php'); // assuming this file contains database connection settings
-session_start();
 
 // Function to handle editing a user
 function editUser() {

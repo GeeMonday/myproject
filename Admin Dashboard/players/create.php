@@ -92,7 +92,7 @@ if ($_POST && !empty($_POST['player_name']) && !empty($_POST['team']) && !empty(
     // Upload player image and get its URL
     $player_image = uploadPlayerImage();
 
-    // Prepare and execute SQL query
+    // Prepare and execute SQL query and bind parameters
     $query = "INSERT INTO nbaeliteroster (player_name, team, position, skill_rating, player_image) VALUES (:player_name, :team, :position, :skill_rating, :player_image)";
     $statement = $db->prepare($query);
     $statement->bindParam(':player_name', $player_name, PDO::PARAM_STR);
